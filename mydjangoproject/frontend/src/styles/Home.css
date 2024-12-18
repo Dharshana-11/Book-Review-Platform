@@ -1,0 +1,55 @@
+.home-container{
+    display:flex;
+    height: 100vh;
+    
+    
+}
+.home-left{
+    background-color: #DDCEBB;
+    flex:1;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Shadow */
+}
+.home-right{
+    flex:1;
+    flex-direction: column;
+}
+.home-left img{
+    display: flex;
+    margin:20px;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+.sign-button {
+    background-color: #022140; 
+    font-size: 19px;
+    font-family:Cochin;
+    color: white; 
+    border: none; 
+    margin:20px;
+    height:60px;
+    width:120px;
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease; /*Slow transition*/
+  }
+  
+  .sign-button:hover {
+    background-color:#9D6824  !important;
+    color:white !important;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4); /* Deep shadow while hovering */
+    transform: translateY(-4px); /* Raised effect */
+  }
+
+
+
+
+  .home-left img, .home-right img {
+    transition: transform 0.3s ease-in-out; /*Zoom effect*/
+  }
+  
+  .home-left img:hover, .home-right img:hover {
+    transform: scale(1.1);
+  }
+  
+  

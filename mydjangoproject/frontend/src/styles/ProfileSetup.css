@@ -1,0 +1,134 @@
+.profile-setup-container{
+    width: 100%;
+    min-height: 100vh;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    position: relative; 
+    padding:20px;
+
+  }
+  
+  .profile-setup-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('/public/images/home_cover.png');
+    background-position: center;
+    opacity: 0.5;  
+  }
+
+  .profile-setup-card {
+    width: 400px;
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Card header layout */
+.card-header {
+    display: flex;
+    flex-direction: column; /* Stack the logo and navigation */
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    margin:10px;
+  }
+  
+  /* Navigation row */
+  .card-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; /* Full width of the card */
+    padding: 0 10px; /* Add spacing */
+  }
+  
+  /* Back button */
+  .card-back {
+    flex: 1; /* Align to the left */
+    text-align: left;
+  }
+  
+  .back-button {
+    font-size: 16px;
+    color: #022140;
+  }
+  
+  .back-button:hover {
+    background-color:#022140 !important;
+    color: white !important; 
+  }
+  /* Center title */
+  .card-title {
+    flex: 2;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    color: #022140;
+    margin-left:30px;
+    margin-right:30px;
+  }
+  
+  /* Skip button */
+  .card-skip {
+    flex: 1; /* Align to the right */
+    text-align: right;
+  }
+  
+  .skip-button:hover {
+    background-color:transparent !important;
+    border-color: transparent;
+  }
+
+  .card-skip:hover {
+    color:white !important;
+  }
+  
+  .skip-button span {
+    font-size: 12px;
+    color: grey;
+    cursor: pointer;
+    text-decoration: underline; /* Optional */
+  }
+  
+  .profile-pic-item {
+    text-align: center;
+  }
+  
+  .profile-pic-upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .profile-pic-avatar {
+    margin-bottom: 10px;
+  }
+  
+  .upload-btn:hover{
+    background-color: #022140 !important;
+    color:white !important;
+  }
+  .ant-select {
+    width: 100%;
+  }
+  
+  .ant-btn-primary {
+    background-color: #022140;
+    border: none;
+  }
+  
+  .ant-btn-primary:hover {
+    background-color: #013366;
+  }
+
+  .ant-card .ant-card-head{
+    padding:0px !important;
+  }
+  
