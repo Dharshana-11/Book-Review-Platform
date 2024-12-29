@@ -1,0 +1,135 @@
+/* Card Container */
+.user-profile-card {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+    background-color: #ffffff;
+    border: 1px solid #f0f0f0;
+  }
+  
+  /* Header Section
+  .user-profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+  } */
+  .user-avatar-container{
+    margin:50px;
+  }
+  
+  .user-profile-header {
+    position: relative; /* Make sure the positioning of child elements is relative to this container */
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.back-button-container {
+    display: flex;
+    position: absolute;
+    top: 10px; /* Adjust the distance from the top */
+    left: 10px; /* Position it on the left */
+}
+
+.edit-button-container {
+    display: flex;
+    position: absolute;
+    top: 100px; /* Adjust the distance from the top */
+    right: 10px; /* Position it on the right */
+}
+
+.back-button {
+    font-size: 18px;
+    color: #022140;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.edit-button {
+    background: transparent;
+    font-size: 22px;
+    color: #022140;
+    cursor: pointer;
+    border: none;
+    width: 40px;
+    height: 40px;
+    top:40px;
+}
+
+.edit-button:hover {
+    background-color: #022140 !important;
+    color: white !important;
+}
+  
+  /* User Details Section */
+  .user-profile-details {
+    margin-top: 20px;
+  }
+  
+  .user-profile-details .ant-row {
+    background-color: #fafafa;
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+  
+  .user-profile-details .ant-row:last-child {
+    margin-bottom: 0;
+  }
+  
+  .user-profile-details .ant-col:first-child {
+    font-weight: bold;
+    color: #555;
+  }
+  
+  /* Profile Option Section */
+  .profile-options {
+    margin-top: 40px;
+  }
+  
+  .profile-options .ant-row {
+    margin-bottom: 15px;
+  }
+  
+  .profile-options .ant-btn {
+    width: 100%;
+    padding: 12px;
+    font-weight: 600;
+    border-radius: 6px;
+    border: none;
+  }
+  
+  .profile-options .ant-btn:hover {
+    background-color: #022140 !important;
+    color: white !important;
+  }
+  
+  .profile-options .ant-btn-danger {
+    background-color: #ff4d4f;
+    color: white;
+  }
+  
+  .profile-options .ant-btn-danger:hover {
+    background-color: #ff7875 !important;
+  }
+  
+  /* Modal Styling */
+  .ant-modal-content {
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .ant-modal-header {
+    background-color: #f0f0f0;
+    border-bottom: 1px solid #e6e6e6;
+  }
+  
+  .ant-modal-title {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
