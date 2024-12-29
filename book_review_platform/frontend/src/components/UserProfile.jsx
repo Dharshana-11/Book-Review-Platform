@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { Card, Avatar, Button, Form, Input, Select, message, Spin, Modal, Row, Col, Upload } from "antd";
-import { UserOutlined, EditOutlined, LeftOutlined } from '@ant-design/icons';
-import '../styles/UserProfile.css'; // Import the CSS file
+import { UserOutlined, EditOutlined, LeftOutlined } from "@ant-design/icons";
+import "../styles/UserProfile.css"; // Import the CSS file
+import api from "../api/axiosInstance";
+import API_ENDPOINTS from "../api/endpoints";
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -12,44 +13,17 @@ const UserProfile = () => {
   const [genres, setGenres] = useState([]); // State to hold genre list
   const [loading, setLoading] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [fileList, setFileList] = useState([]);  // State to track the file list
+  const [fileList, setFileList] = useState([]); // State to track the file list
 
-  // const handleChange = (info) => {
-  //   // Ensure the file is valid before updating the fileList
-  //   const file = info.file.originFileObj || info.file;
-  //   if (file instanceof File) {
-  //     setFileList([file]);
-  //   } else {
-  //     console.error("Invalid file type for profile picture upload.");
-  //   }
-  // };
-
+  // Fetch Profile and Genres
   useEffect(() => {
     const fetchProfile = async () => {
-      const token = localStorage.getItem("access_token");
-      if (!token) {
-        message.error("No token found in localStorage!");
-        setLoading(false);
-        return;
-      }
-
       try {
-        const response = await fetch("http://127.0.0.1:8000/accounts/profile/", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error(`HTTP status ${response.status}`);
-        }
-        const data = await response.json();
-        setUserData(data);
+        const response = await api.get(API_ENDPOINTS.PROFILE);
+        setUserData(response.data);
       } catch (error) {
         console.error("Error fetching profile:", error);
-        message.error("Error fetching user profile.");
+        message.error("Failed to fetch user profile.");
       } finally {
         setLoading(false);
       }
@@ -57,19 +31,18 @@ const UserProfile = () => {
 
     const fetchGenres = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/accounts/genres/");
-        if (response.status === 200) {
-          setGenres(response.data); // Assuming genres are returned as an array of {id, name}
-        }
+        const response = await api.get(API_ENDPOINTS.GENRES);
+        setGenres(response.data); // Assuming genres are returned as an array of { id, name, key }
       } catch (error) {
         console.error("Error fetching genres:", error);
-        message.error("Error fetching genres.");
+        message.error("Failed to fetch genres.");
       }
     };
 
     fetchProfile();
     fetchGenres();
   }, []);
+
 
   const handleSave = async (values) => {
     const slugs = values.favoriteGenres
@@ -100,28 +73,20 @@ const UserProfile = () => {
   
   const submitFormData = async (formData) => {
     try {
-      const response = await axios.put(
-        "http://127.0.0.1:8000/accounts/profile/", // API endpoint
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`, // Bearer token for authentication
-            "Content-Type": "multipart/form-data", // Ensure correct content type for file uploads
-          },
-        }
-      );
-      // Update user data in the state with the response data
+      const response = await api.put(API_ENDPOINTS.PROFILE, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
       setUserData(response.data);
       message.success("Profile updated successfully!");
-      setIsModalVisible(false);  // Close the modal after successful update
+      setIsModalVisible(false);
     } catch (error) {
-      console.error("Profile update error:", error.response || error);
-      message.error(`Failed to update profile: ${error.response?.data?.detail || error.message}`);
+      console.error("Error updating profile:", error);
+      message.error("Failed to update profile.");
     }
   };
-  
+    
 
-  // Ensure userData and genres are available before rendering the form
+  // Render loading spinner if data is still loading
   if (loading || !userData || genres.length === 0) {
     return <Spin spinning={loading} />;
   }
@@ -130,23 +95,27 @@ const UserProfile = () => {
     <>
       <Card className="user-profile-card">
         <div className="user-profile-header">
-          <div className="back-button-container"><Button className="back-button" onClick={() => window.history.back()} icon={<LeftOutlined />} ></Button></div>
-          <div className="edit-button-container"><Button className="edit-button" icon={<EditOutlined />} onClick={() => setIsModalVisible(true)}></Button></div>
+          <Button
+            className="back-button"
+            onClick={() => window.history.back()}
+            icon={<LeftOutlined />}
+          />
+          <Button
+            className="edit-button"
+            icon={<EditOutlined />}
+            onClick={() => setIsModalVisible(true)}
+          />
         </div>
 
         <div className="user-avatar-container">
         <Avatar
           size={100}
           src={
-            userData.profile_pic && typeof userData.profile_pic === "string"
-              ? `http://127.0.0.1:8000${userData.profile_pic}` // For existing image URL
-              : userData.profile_pic instanceof File
-              ? URL.createObjectURL(userData.profile_pic) // For new file preview
-              : null // Fallback when there's no image
+            userData.profile_pic
+              ? `http://127.0.0.1:8000${userData.profile_pic}?t=${new Date().getTime()}`
+              : null
           }
           icon={!userData.profile_pic ? <UserOutlined /> : null}
-          alt={userData?.user?.username || "N/A"}
-          className="user-avatar"
         />
 
         </div>
@@ -158,18 +127,14 @@ const UserProfile = () => {
           </Row>
           <Row>
             <Col span={12}><strong>Bio:</strong></Col>
-            <Col span={12}>{userData.bio}</Col>
+            <Col span={12}>{userData.bio || "N/A"}</Col>
           </Row>
           <Row>
             <Col span={12}><strong>Favorite Genres:</strong></Col>
-            <Col span={12}>{
-              userData.favorite_genres
-                .map(slug => {
-                  // Find the genre name by matching slug (key) from genres
-                  const genre = genres.find(genre => genre.key === slug);
-                  return genre ? genre.name : slug;  // Fallback to slug if genre not found
-                })
-                .join(", ") }
+            <Col span={12}>
+              {userData.favorite_genres
+                .map((slug) => genres.find((genre) => genre.key === slug)?.name || slug)
+                .join(", ")}
             </Col>
           </Row>
         </div>
@@ -182,40 +147,33 @@ const UserProfile = () => {
         footer={null}
         width={600}
       >
-        <Form layout="vertical" onFinish={(values) => { console.log("Form submitted:", values); handleSave(values); }}>
+        <Form layout="vertical" onFinish={handleSave}>
           <Form.Item label="Bio" name="bio" initialValue={userData.bio}>
             <TextArea rows={3} />
           </Form.Item>
 
-          <Form.Item
-  label="Favorite Genres"
-  name="favoriteGenres"
-  initialValue={userData.favorite_genres}  // Pass slugs here, as the backend sends slugs
->
-  <Select mode="multiple" placeholder="Select genres">
-    {console.log("GENRES:",genres)}
-    {genres.map((genre) => (
-      <Option key={genre.id} value={genre.key}> {/* Use genre.key (slug) as value */}
-        {genre.name}
-      </Option>
-    ))}
-  </Select>
-</Form.Item>
+          <Form.Item label="Favorite Genres" name="favoriteGenres" initialValue={userData.favorite_genres}>
+            <Select mode="multiple" placeholder="Select genres">
+              {genres.map((genre) => (
+                <Option key={genre.id} value={genre.key}>
+                  {genre.name}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
 
-
-          <Form.Item label="Profile Picture" name="profile_pic">
+          <Form.Item label="Profile Picture">
             <Upload
-              name="profile_pic"
               listType="picture-card"
               showUploadList={false}
               beforeUpload={(file) => {
-                setFileList([file]); // Ensure file is added to fileList
-                return false; // Prevent default upload behavior
+                setFileList([file]);
+                return false;
               }}
             >
               {fileList.length > 0 ? (
                 <img
-                  src={URL.createObjectURL(fileList[0])} // Preview uploaded image
+                  src={URL.createObjectURL(fileList[0])}
                   alt="profile"
                   style={{ width: "100%" }}
                 />

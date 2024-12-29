@@ -10,4 +10,5 @@ urlpatterns = [
      path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'), # Refresh token endpoint - Generates a new access token using the refresh token
      path("profile/", ProfileView.as_view(), name="profile"),
      path('genres/', views.genres_list_view, name='genres_list'),
+      path('user/favorite-genres/', views.user_favorite_genres, name='user-favorite-genres'),
 ]

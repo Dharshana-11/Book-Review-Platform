@@ -26,10 +26,11 @@ const SearchBar = ({ onSearchComplete }) => {
     <div className="search-bar-container">
       <Input
         className="search-bar"
-        placeholder="Search a book"
+        placeholder="Search a book by title, author or genre"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
         onPressEnter={handleSearch}
+        style={{fontSize:'12px'}}
       />
       <Button
         className="search-btn"

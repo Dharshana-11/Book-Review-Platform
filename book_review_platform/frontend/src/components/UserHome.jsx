@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Layout, Menu, Drawer, Image, Row, Col, Card } from "antd";
 import { MenuOutlined, ShopOutlined, StarOutlined, AppstoreAddOutlined, BookOutlined, UserOutlined, LogoutOutlined } from "@ant-design/icons";
 import SearchBar from "./SearchBar";
+import Recommendation from "./Recommendation";
 import "../styles/UserHome.css";
 
 const { Header, Content } = Layout;
@@ -13,19 +14,18 @@ const UserHome = () => {
   const [menuVisible, setMenuVisible] = useState(false);
   const [books, setBooks] = useState([]);
   const [expandedDescriptions, setExpandedDescriptions] = useState({});
+  const [searchPerformed, setSearchPerformed] = useState(false);
 
   const handleMenuClick = (e) => {
-    if(e.key==='sign-out'){
+    if (e.key === 'sign-out') {
       localStorage.removeItem("access_token");
       localStorage.removeItem("refresh_token");
       localStorage.removeItem("username");
-      navigate('/')
-    }
-    else{
+      navigate('/');
+    } else {
       navigate(`/${e.key}`);
       console.log(`${e.key} clicked`);
     }
-    
   };
 
   const toggleMenu = () => {
@@ -39,6 +39,11 @@ const UserHome = () => {
     }));
   };
 
+  const handleSearchComplete = (books) => {
+    setBooks(books);
+    setSearchPerformed(true);  // Mark that search was performed
+  };
+
   return (
     <Layout>
       <Header className="header">
@@ -49,7 +54,7 @@ const UserHome = () => {
           <Image src="/images/logo_t.png" alt="Logo" className="logo" />
         </div>
         <div className="right-section">
-          <SearchBar onSearchComplete={setBooks} />
+          <SearchBar onSearchComplete={handleSearchComplete} />
         </div>
       </Header>
 
@@ -65,24 +70,24 @@ const UserHome = () => {
       </Drawer>
 
       <Content className="content">
-        {books && books.length > 0 && (
+        {/* Only show recommendations if no search is performed */}
+        {!searchPerformed && <Recommendation />}
+        
+        {/* Display search results if available */}
+        {searchPerformed && books.length > 0 && (
           <Row gutter={[16, 16]}>
             {books.map((book) => (
               <Col span={8} key={book.id}>
                 <Card
                   hoverable
                   className="book-card"
-                  cover={
-                    <img src={book.volumeInfo.imageLinks?.thumbnail} alt={book.volumeInfo.title} className="book-image"/>
-                  }
+                  cover={<img src={book.volumeInfo.imageLinks?.thumbnail} alt={book.volumeInfo.title} className="book-image" />}
                 >
                   <Meta
                     title={book.volumeInfo.title}
                     description={
                       <div className="book-author">
-                        {book.volumeInfo.authors
-                          ? book.volumeInfo.authors.join(", ")
-                          : "Unknown Author"}
+                        {book.volumeInfo.authors ? book.volumeInfo.authors.join(", ") : "Unknown Author"}
                       </div>
                     }
                   />

@@ -1,104 +1,74 @@
-/* Global styles */
-body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial;
-  }
-  .ant-layout {
-    background-color: white;
-  }
-  
-  /* Header styling */
-  .header {
-    background-color:#fafafa; /* Very light gray background */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 30px;
-    height:100px;
-  }
-  
-  /* Left section with hamburger menu */
-  .left-section {
-    display: flex;
-    align-items: center;
-  }
-.ant-drawer .ant-drawer-body {
-    padding:5px;
+/* Header styling */
+.header {
+  background-color: #F0F0F0; /* Soft pale cream */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  height: 120px;
+  border-bottom: 1px solid #e2d9c5;
+  /* border-bottom: 1px solid #e2d9c5; Subtle complementary border */
+  position: relative;
+  z-index: 10;
 }
-  .menu-icon {
-    font-size: 24px;
-    cursor: pointer;
-  }
-  
-  /* Logo styling */
-  .logo-section {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-  
-  .logo {
-    height: 100px;
-    width: 150px !important;
 
-  }
-  
-  /* Right section with search bar and user icon */
-  .right-section {
-    display: flex;
-    align-items: center;
-  }
-  
-  .search-bar {
-    width: 200px;
-    margin:10px;
-    height:40px;
-  }
+/* Left section (menu icon) */
+.menu-icon {
+  font-size: 24px;
+  cursor: pointer;
+  color: #5a4633; /* Dark espresso brown */
+  margin-left: 5px;
+}
 
-  .search-btn{
-    margin-right:10px;
-    margin-top:10px;
-    height: 35px;
-  }
-  
-  .content{
-    margin:30px;
-  }
-  
-  /* Card Styling */
-  .book-card {
-    width: 100%;
-    border-radius: 10px; /* Rounded corners for the card */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for the card */
-  }
-  
-  /* Image Styling */
-  .book-image {
-    width: 100%;
-    height: 200px; /* Set to portrait height */
-    object-fit: contain; /* Ensure portrait orientation */
-    border-radius: 10px 10px 0 0; /* Rounded corners for the image */
-  }
-  
-  /* Author Text Styling */
-  .book-author {
-    font-size: 12px;
-    color: #555;
-  }
-  
-  /* Description Styling */
-  .book-description {
-    font-size: 14px;
-    color: #333;
-    margin-top: 10px;
-  }
-  
-  .see-more {
-    color: #1890ff;
-    cursor: pointer;
-    text-decoration: underline;
-    margin-top: 5px;
-    display: inline-block;
-  }
-  
+/* Logo styling */
+.logo-section {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.logo {
+  margin-top: 5px;
+  height: 160px !important;
+  width: auto !important;
+  /* filter: drop-shadow(1px 1px 3px rgba(0, 0, 0, 0.2)); Slight shadow for subtle contrast */
+}
+
+/* Right section (search bar) */
+.right-section {
+  display: flex;
+  align-items: center;
+}
+
+.search-bar {
+  width: 260px;
+  height: 36px;
+  font-size: small;
+  border: 1px solid #e2d9c5; /* Light taupe border for elegance */
+  border-radius: 18px;
+  padding: 0 15px;
+  background-color: #ffffff; /* White background */
+  color: #5a4633; /* Espresso brown text */
+  transition: box-shadow 0.3s ease-in-out;
+  margin-right: 10px;
+  font-size: small !important;
+}
+
+.search-bar:focus {
+  outline: none;
+  box-shadow: 0 0 6px 2px rgba(226, 217, 197, 0.6); /* Soft taupe glow on focus */
+}
+
+/* Section Headings */
+h2 {
+  font-size: 22px;
+  color: #5a4633; /* Espresso brown for contrast */
+  margin: 20px 30px 10px;
+  font-weight: bold;
+  border-left: 4px solid #e2d9c5; /* Neutral taupe accent */
+  padding-left: 10px;
+}
+
+ .ant-drawer-body {
+  padding: 5px !important;
+ }

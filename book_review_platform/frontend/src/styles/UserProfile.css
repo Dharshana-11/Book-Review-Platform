@@ -17,7 +17,7 @@
     margin-bottom: 30px;
   } */
   .user-avatar-container{
-    margin:50px;
+    margin:60px;
   }
   
   .user-profile-header {
@@ -36,8 +36,8 @@
 .edit-button-container {
     display: flex;
     position: absolute;
-    top: 100px; /* Adjust the distance from the top */
-    right: 10px; /* Position it on the right */
+     /* Adjust the distance from the top */
+    right: 5px; /* Position it on the right */
 }
 
 .back-button {
@@ -46,6 +46,9 @@
     border: none;
     background: transparent;
     cursor: pointer;
+    position: absolute;
+    top: 20px; /* Adjust the distance from the top */
+    left: 10px;
 }
 
 .edit-button {
@@ -56,7 +59,9 @@
     border: none;
     width: 40px;
     height: 40px;
-    top:40px;
+    position: absolute;
+    top:150px;
+    right: 10px;
 }
 
 .edit-button:hover {

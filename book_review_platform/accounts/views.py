@@ -33,25 +33,27 @@ def signup_view(request):
             # Validate the data
             if not username or not email or not password:
                 return JsonResponse({'error': 'All fields are required'}, status=400)
-            
+
             if User.objects.filter(username=username).exists():
                 return JsonResponse({'error': 'Username already exists'}, status=400)
-            
+
             if User.objects.filter(email=email).exists():
                 return JsonResponse({'error': 'Email already exists'}, status=400)
 
-            # Create the user
+            # Create the user but do not activate them yet
             user = User.objects.create_user(username=username, email=email, password=password)
+            user.is_active = False  # User cannot log in until profile setup is complete
             user.save()
 
-            # Generate JWT token
             refresh = RefreshToken.for_user(user)
             token_data = {
                 'refresh': str(refresh),
                 'access': str(refresh.access_token),
             }
-
-            return JsonResponse({'message': 'User registered successfully!', 'token': token_data}, status=201)
+            return JsonResponse({
+                'message': 'User registered successfully! Please complete your profile setup.',
+                'token': token_data
+            }, status=201)
 
         except Exception as e:
             return JsonResponse({'error': 'An error occurred: ' + str(e)}, status=500)
@@ -69,6 +71,9 @@ def profile_setup_view(request):
             profile_pic_data = data.get('profilePic')  # Base64 string
 
             user = User.objects.get(username=username)
+
+            if user.is_active:
+                return JsonResponse({'error': 'Profile setup already completed.'}, status=400)
 
             # Decode Base64 string to an image file
             if profile_pic_data:
@@ -89,7 +94,11 @@ def profile_setup_view(request):
             genre_objects = Genre.objects.filter(id__in=favorite_genres)
             profile.favorite_genres.set(genre_objects)
 
-            return JsonResponse({'message': 'Profile updated successfully!'}, status=200)
+            # Activate the user
+            user.is_active = True
+            user.save()
+
+            return JsonResponse({'message': 'Profile updated successfully and account activated!'}, status=200)
 
         except User.DoesNotExist:
             return JsonResponse({'error': 'User does not exist'}, status=404)
@@ -114,6 +123,9 @@ def login_view(request):
             user = authenticate(request, username=username, password=password)
 
             if user is not None:
+                if not user.is_active:
+                    return JsonResponse({'error': 'Please complete your profile setup to activate your account.'}, status=403)
+
                 # Generate JWT token
                 refresh = RefreshToken.for_user(user)
                 token_data = {
@@ -182,3 +194,21 @@ def genres_list_view(request):
         serializer = GenreSerializer(genres, many=True)
         return JsonResponse(serializer.data, safe=False)
     return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def user_favorite_genres(request):
+    try:
+        user = request.user
+        profile = Profile.objects.get(user=user)
+        favorite_genres = profile.favorite_genres.all().values_list('name', flat=True)
+        return JsonResponse({'favoriteGenres': list(favorite_genres)}, status=200)
+    except Profile.DoesNotExist:
+        return JsonResponse({'error': 'Profile not found'}, status=404)
+    except Exception as e:
+        return JsonResponse({'error': f'An error occurred: {str(e)}'}, status=500)

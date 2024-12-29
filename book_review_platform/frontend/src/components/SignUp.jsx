@@ -13,32 +13,36 @@ const SignUp = () => {
   }
  
   const onFinish = async (values) => {
-    setLoading(true)
+    setLoading(true);
     try {
       const response = await fetch('http://127.0.0.1:8000/accounts/signup/', {
         method: 'POST',
-        headers: {'Content-Type': 'application/json',},
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(values),
       });
   
       if (response.ok) {
         const data = await response.json();
-        message.success(data.message); // Success msg
-        localStorage.setItem('access_token', data.token.access);
+        message.success(data.message); // Success message
+        
+        // Check if token exists before accessing it
+        if (data.token && data.token.access) {
+          localStorage.setItem('access_token', data.token.access);
+        }
+        
         localStorage.setItem('username', values.username);
-        navigate('/profile/setup'); 
+        navigate('/profile/setup');
       } else {
         const errorData = await response.json();
-        message.error(errorData.error); // Error msg
+        message.error(errorData.error); // Error message
       }
     } catch (error) {
       message.error('An error occurred: ' + error.message);
+    } finally {
+      setLoading(false);
     }
-    finally{
-      setLoading(false)
-    }
-  };  
-
+  };
+  
 
   return (
     <div className="sign-up-container">

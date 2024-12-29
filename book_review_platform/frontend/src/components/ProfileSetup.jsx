@@ -39,9 +39,9 @@ const ProfileSetup = () => {
     fetchGenres();
   }, []);  
 
-  const handleSkip = () => {
-    navigate('/user/home');
-  };
+  // const handleSkip = () => {
+  //   navigate('/user/home');
+  // };
 
   const handleBack = () => {
     navigate('/signup');
@@ -102,19 +102,17 @@ const ProfileSetup = () => {
       <Card
         title={
           <div className="card-header">
-            <div className="card-navigation">
               <div className="card-back">
                 <Button type="link" onClick={handleBack} className="back-button">
                   <ArrowLeftOutlined />
                 </Button>
               </div>
               <div className="card-title">Set Up Your Profile</div>
-              <div className="card-skip">
+              {/* <div className="card-skip">
                 <Button type="link" onClick={handleSkip} className="skip-button">
                   <span>Skip</span>
                 </Button>
-              </div>
-            </div>
+              </div> */}
           </div>
         }
         bordered={false}
@@ -159,9 +157,9 @@ const ProfileSetup = () => {
         </Form.Item>
 
           <Form.Item>
-            <button type="submit" style={{ height: '45px' }}>
+            <Button type="primary" htmlType="submit" block>
               Finish
-            </button>
+            </Button>
           </Form.Item>
         </Form>
       </Card>

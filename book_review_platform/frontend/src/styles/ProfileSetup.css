@@ -16,6 +16,7 @@
     left: 0;
     right: 0;
     bottom: 0;
+    background-size: contain;
     background-image: url('/public/images/home_cover.png');
     background-position: center;
     opacity: 0.5;  
@@ -35,8 +36,9 @@
     flex-direction: column; /* Stack the logo and navigation */
     align-items: center;
     gap: 10px;
+    height:max-content;
     position: relative;
-    margin:10px;
+    margin-bottom:30px;
     
   }
   
@@ -58,7 +60,10 @@
   .back-button {
     font-size: 16px;
     color: #022140;
-  }
+    position:absolute;
+    width:40px;
+    /* left:5px;   */
+}
   
   .back-button:hover {
     background-color:#022140 !important;
@@ -73,6 +78,7 @@
     color: #022140;
     margin-left:30px;
     margin-right:30px;
+    margin-top: 20px;
   }
   
   /* Skip button */
