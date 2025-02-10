@@ -58,11 +58,15 @@
   }
   
   .back-button {
-    font-size: 16px;
-    color: #022140;
-    position:absolute;
-    width:40px;
-    /* left:5px;   */
+  font-size: 16px;
+  color: #022140;
+  position: absolute;
+  width: 80px;
+  left: 10px;
+  top: 20px; /* Adjust this for vertical alignment */
+  border: none;
+  background: transparent;
+  cursor: pointer;
 }
   
   .back-button:hover {

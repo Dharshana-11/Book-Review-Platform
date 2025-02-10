@@ -1,0 +1,342 @@
+.review-content {
+    padding: 20px;
+    background-color: #f9f9f9;
+    position: relative;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s ease forwards;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box; 
+}
+  
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+  .review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-right:10px;
+    border-left:none !important;
+    margin-left: 0px !important;
+  }
+
+  .review-book-title{
+    margin-left: 60px;
+    color: #5a4633;
+    margin-top:25px;
+    font-weight: bold;
+    padding-left: 5px;
+  }
+  
+  .back-btn {
+    font-size: 16px;
+    color: #022140;
+    position: absolute;
+    top:33px;
+  }
+  
+  .review-btn {
+    margin-left: 40px;
+    width:130px;
+  }
+  
+  .review-card {
+    background-color: #ffffff; 
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: block;
+    width: 100%  !important; /* Avoid width reduction */
+}
+
+.review-card:hover {
+    transform: translateY(-5px); /* Lift effect */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Stronger shadow */
+}
+
+  .review-card-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px;
+  }
+  
+  .review-avatar {
+    transition: transform 0.3s ease;
+}
+
+.review-avatar:hover {
+    transform: scale(1.1);
+}
+
+.review-user {
+    display: inline-block;
+    position: relative;
+    font-family: 'Poppins', sans-serif; /* Modern and clean font */
+    font-size: 18px; /* Slightly larger for emphasis */
+    font-weight: 600; /* Semi-bold for visibility */
+    color: #5a4633; /* Match the theme with an earthy brown tone */
+    padding-bottom: 3px; /* Space for the underline effect */
+    letter-spacing: 0.5px; /* Add a touch of sophistication */
+    transition: color 0.3s ease, letter-spacing 0.3s ease;
+}
+
+.review-user::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #022140; /* Subtle blue underline */
+    transition: width 0.3s ease;
+}
+
+.review-user:hover {
+    color: #022140; /* Interactive blue on hover */
+    letter-spacing: 1px; /* Slight spacing expansion */
+}
+
+.review-user:hover::after {
+    width: 100%; /* Full underline on hover */
+}
+  
+  .review-content p {
+    font-size: 16px;
+    line-height: 1.5;
+    text-align: justify;
+  }
+  
+  .like-btn {
+    margin-left: 10px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    width: 90px;
+    justify-content: center;
+    border: none;
+    outline: none;
+    transition: all 0.3s ease; /* Smooth animation */
+  }
+  
+  .like-btn:hover {
+    background-color: rgba(255, 0, 0, 0.1) !important; /* Light red background */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important; /* Subtle shadow */
+    transform: scale(1.1); /* Slightly enlarge */
+    color: red !important; /* Change text/icon color */
+  }
+  
+  .like-btn:focus {
+    outline: none; /* Remove focus outline */
+  }
+  
+  @keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.like-btn:active {
+    animation: pulse 0.3s ease-out;
+}
+
+  .review-options {
+    cursor: pointer;
+    font-size: 20px;
+    color: #888;
+  }
+  
+  .review-footer {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  
+  .review-item {
+    padding: 0;
+  }
+  
+  .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .modal-content {
+    padding: 20px;
+  }
+  
+  .see-more-toggle {
+    color: #022150; /* Interactive blue */
+    cursor: pointer;
+    font-weight: 500;
+    margin-left: 5px;
+    transition: color 0.3s ease;
+  }
+  
+  .see-more-toggle:hover {
+    color: #022140;
+    text-decoration: underline;
+    text-shadow: 0 0 5px rgba(2, 33, 64, 0.5);
+}
+
+.ant-modal-content {
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, #ffffff, #f7f7f7);
+}
+
+.ant-modal-header {
+    border-bottom: none;
+}
+
+.ant-modal-title {
+    color: #022140;
+    font-weight: bold;
+}
+
+.ant-modal button:hover{
+    background-color: transparent !important;
+    color:black !important;
+    border-color: #022150 !important;
+}
+
+.menu-item {
+    padding: 10px 15px;
+    font-size: 16px;
+    color: #022140; /* Default text color */
+    transition: background-color 0.3s ease, color 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.menu-item:hover {
+    background-color: #f0f0f0; /* Subtle hover background */
+    color: #022140; /* Keep text consistent */
+}
+
+.menu-item-delete {
+    color: red !important; /* Highlight delete in red */
+}
+
+.menu-item-delete:hover {
+    background-color: rgba(255, 0, 0, 0.1) !important; /* Light red hover effect */
+}
+
+.no-reviews-message {
+    text-align: center;
+    padding: 20px;
+    margin-top: 30px;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    color: #555;
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .no-reviews-message p {
+    margin: 0;
+    color: #888;
+  }
+  
+  .no-reviews-message i {
+    font-size: 24px;
+    color: #ff9900;
+    margin-right: 10px;
+  }
+  
+  .no-reviews-message .no-reviews-icon {
+    font-size: 30px;
+    color: #ff9900;
+    margin-bottom: 15px;
+  }
+  .review-content p {
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Show only 3 lines */
+    line-clamp: 3; 
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+  }
+  
+  .review-content p.expanded {
+    -webkit-line-clamp: unset;
+    line-clamp: unset; 
+  }
+  
+  
+  .review-content b {
+    font-weight: bold;
+  }
+  
+  .review-content i {
+    font-style: italic;
+  }
+
+  /* Add this CSS in your stylesheet */
+.report {
+    color: red; /* Red color for the whole menu item */
+  }
+  
+  .report-text {
+    color: red; /* Red color for the text inside the menu item */
+  }
+  
+  /* If you are using an Ant Design icon inside it, you can target the icon like this */
+  .report .anticon {
+    color: red; /* Red color for the icon */
+  }
+  
+  .delete-text{
+    color:red !important;
+  }
+  
+  /* General List styling */
+.ant-list-item {
+    padding: 12px 16px;  /* Adjust padding to improve readability */
+    font-size: 16px;     /* Adjust font size for better legibility */
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition for background color */
+  }
+  
+  /* Styling for active report reason */
+  .report-reason-item.active {
+    background-color: #f0f0f0; /* Light grey background for active item */
+    color: #1890ff;  /* Blue color for active text (optional) */
+  }
+  
+  /* Hover effect for items */
+  .ant-list-item:hover {
+    background-color: #f5f5f5; /* Light grey background on hover */
+  }
+  
+  /* Optional: Customize item on focus for better accessibility */
+  .ant-list-item:focus {
+    background-color: #e6f7ff;  /* Blueish background on focus */
+    outline: none; /* Remove default focus outline */
+  }
+  
+  

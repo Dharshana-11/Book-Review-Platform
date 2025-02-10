@@ -11,35 +11,37 @@ const Login = () => {
 
   const onFinish = async (values) => {
     const { username, password } = values;
-    setLoading(true); 
-    // setErrorMessage(''); // Reset error msg
-
+    setLoading(true);
+  
     try {
       const response = await fetch('http://127.0.0.1:8000/accounts/login/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
       });
+     
       const responseData = await response.json();
-      // console.log('Response Data:', responseData);
+      console.log(responseData);
       if (response.ok) {
+        // Assuming the response contains 'user' and token info
         localStorage.setItem('username', values.username);
         localStorage.setItem('access_token', responseData.access);
         localStorage.setItem('refresh_token', responseData.refresh);
+  
+        // Storing the entire user object for context consumption
+        localStorage.setItem('user', JSON.stringify(responseData.user));
+  
         navigate('/user/home');
       } else {
-        // const errorMessage = responseData.error || 'Invalid credentials. Please try again.';
-        // setErrorMessage(errorMessage); 
-        message.error(responseData.error || 'Invalid credentials. Please try again.')
+        message.error(responseData.error || 'Invalid credentials. Please try again.');
       }
     } catch (error) {
       console.error('Error during login:', error);
       message.error('An error occurred. Please try again later.');
-      // setErrorMessage('An error occurred. Please try again later.'); 
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
-  };
+  };  
   
   const handleSignUpNavigation=()=>{
     navigate('/signup')

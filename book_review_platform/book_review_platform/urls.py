@@ -31,8 +31,10 @@ router = DefaultRouter()
 router.register(r'genres', GenreViewSet, basename='genre')
 urlpatterns = [
     path('admin/', admin.site.urls),
-     path('accounts/', include('accounts.urls')),
-     path('', redirect_to_react),
+    path('accounts/', include('accounts.urls')),
+    path('ratings/', include('ratings.urls')),
+    path('', redirect_to_react),
+    path('reviews/', include('reviews.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += router.urls

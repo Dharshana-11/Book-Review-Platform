@@ -1,0 +1,23 @@
+
+.search-bar {
+    width: 290px !important;
+    height: 35px !important;
+    font-size: small !important;
+    border: 1px solid #e2d9c5; /* Light taupe border for elegance */
+    border-radius: 18px !important;
+    padding: 0 15px;
+    background-color: #ffffff; /* White background */
+    color: #5a4633; /* Espresso brown text */
+    transition: box-shadow 0.3s ease-in-out;
+    margin-right: 10px;
+  }
+  
+  .search-bar:focus {
+    outline: none;
+    box-shadow: 0 0 6px 2px rgba(226, 217, 197, 0.6); /* Soft taupe glow on focus */
+  }
+
+  .search-bar-container{
+    margin:10px;
+  }
+ 

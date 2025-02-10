@@ -67,16 +67,22 @@
     border-radius: 5px;
   }
   
-  .book-title {
-    font-size: 14px;
+  .recommended-book-title {
+    font-size: 14px !important;
     font-weight: bold;
     margin: 10px 0 5px;
-    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: normal; /* Allow wrapping */
+    display: -webkit-box; /* For multi-line ellipsis */
+    -webkit-line-clamp: 2; /* Vendor prefix for limiting to 2 lines */
+    -webkit-box-orient: vertical; /* Required for multi-line truncation */
+    
+    line-clamp: 2; /* Standard property for limiting to 2 lines */
+    box-orient: vertical; /* Standard property for multi-line truncation */
   }
   
-  .book-authors {
+  .recommended-book-authors {
     font-size: 12px;
     color: #555;
   }
