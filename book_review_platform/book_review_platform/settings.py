@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'api',  
     'ratings',
     'reviews',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [

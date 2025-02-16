@@ -46,7 +46,6 @@ const AppHeader = ({ onSearchComplete }) => {
           <Menu.Item key="user-profile" icon={<UserOutlined />}>My Profile</Menu.Item>
           <Menu.Item key="reviews-ratings" icon={<StarOutlined />}>My Reviews & Ratings</Menu.Item>
           <Menu.Item key="settings" icon={<SettingOutlined />}>Settings</Menu.Item>
-          <Menu.Item key="catalogue" icon={<BookOutlined />}>Popular Book Catalogues</Menu.Item>
           <Menu.Item key="sign-out" icon={<LogoutOutlined />}>Sign Out</Menu.Item>
         </Menu>
       </Drawer>
