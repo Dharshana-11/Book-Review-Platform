@@ -26,7 +26,7 @@ const SearchResults = () => {
   };
 
   const handleBack = () => {
-    navigate(-1); // Navigate back first
+    navigate('/user/home'); // Navigate back first
     setTimeout(() => {
       setSearchQuery(''); // Clear the search query after navigating back
       clearSearchResults(); // Clear search results after navigation

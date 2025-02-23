@@ -11,6 +11,7 @@ export const SearchProvider = ({ children }) => {
     return storedResults ? JSON.parse(storedResults) : [];
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null); // For error handling
 
   const GOOGLE_API_KEY = 'AIzaSyCwmn5oVKeeCbiFEbzJComNr1O2vK0bHXw';
   const GOOGLE_API_URL = 'https://www.googleapis.com/books/v1/volumes';
@@ -27,6 +28,8 @@ export const SearchProvider = ({ children }) => {
     }
 
     setIsLoading(true);
+    setError(null); // Reset error state before new request
+
     try {
       const response = await fetch(`${GOOGLE_API_URL}?q=${query}&key=${GOOGLE_API_KEY}`);
       const data = await response.json();
@@ -49,17 +52,18 @@ export const SearchProvider = ({ children }) => {
       }
     } catch (error) {
       console.error('Error fetching search results:', error);
+      setError('Failed to fetch search results.');
       clearSearchResults();
     } finally {
       setIsLoading(false);
     }
-  }, [GOOGLE_API_URL, GOOGLE_API_KEY]);
+  }, [GOOGLE_API_URL, GOOGLE_API_KEY]); // Remove `searchQuery` from dependency list
 
   useEffect(() => {
     if (searchQuery) {
-      handleSearch(searchQuery);  // Trigger search when the query changes
+      handleSearch(searchQuery); // Trigger search when the query changes
     }
-  }, [searchQuery, handleSearch]);  // Dependency array ensures the effect runs only when searchQuery changes
+  }, [searchQuery, handleSearch]); // Only search when searchQuery changes
 
   return (
     <SearchContext.Provider
@@ -69,6 +73,7 @@ export const SearchProvider = ({ children }) => {
         searchResults,
         clearSearchResults,
         isLoading,
+        error, // Provide error state to be used by consumers
         handleSearch,
       }}
     >

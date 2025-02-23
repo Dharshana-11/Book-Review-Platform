@@ -20,6 +20,32 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import viewsets
 from rest_framework.parsers import MultiPartParser, JSONParser
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view, permission_classes
+import uuid
+from django.core.mail import send_mail
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.template.loader import render_to_string
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.http import urlsafe_base64_decode
+
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.http import JsonResponse
+from django.utils.encoding import force_bytes
+
+
+from django.contrib.auth.tokens import default_token_generator
+from django.contrib.auth.models import User
+from django.utils.http import urlsafe_base64_decode
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.http import JsonResponse
+
+from django.http import JsonResponse
+from django.contrib.auth.tokens import default_token_generator
+from django.contrib.auth.models import User
+from django.utils.http import urlsafe_base64_decode
+from rest_framework_simplejwt.tokens import RefreshToken
 
 @csrf_exempt
 def signup_view(request):
@@ -30,7 +56,6 @@ def signup_view(request):
             email = data.get('email')
             password = data.get('password')
 
-            # Validate the data
             if not username or not email or not password:
                 return JsonResponse({'error': 'All fields are required'}, status=400)
 
@@ -40,19 +65,15 @@ def signup_view(request):
             if User.objects.filter(email=email).exists():
                 return JsonResponse({'error': 'Email already exists'}, status=400)
 
-            # Create the user but do not activate them yet
             user = User.objects.create_user(username=username, email=email, password=password)
-            user.is_active = False  # User cannot log in until profile setup is complete
+            user.is_active = False  # User cannot log in yet
             user.save()
 
-            refresh = RefreshToken.for_user(user)
-            token_data = {
-                'refresh': str(refresh),
-                'access': str(refresh.access_token),
-            }
+            # Send verification email
+            send_verification_email(user, request)
+
             return JsonResponse({
-                'message': 'User registered successfully! Please complete your profile setup.',
-                'token': token_data
+                'message': 'User registered successfully! Please verify your email.',
             }, status=201)
 
         except Exception as e:
@@ -71,8 +92,9 @@ def profile_setup_view(request):
             profile_pic_data = data.get('profilePic')  # Base64 string
 
             user = User.objects.get(username=username)
+            profile = user.profile
 
-            if user.is_active:
+            if profile.profile_complete:
                 return JsonResponse({'error': 'Profile setup already completed.'}, status=400)
 
             # Decode Base64 string to an image file
@@ -88,6 +110,7 @@ def profile_setup_view(request):
             profile.bio = bio
             if profile_pic_file:
                 profile.profile_pic = profile_pic_file
+            profile.profile_complete = True
             profile.save()
 
             # Update favorite genres (many-to-many relationship)
@@ -108,6 +131,7 @@ def profile_setup_view(request):
     return JsonResponse({'error': 'Invalid request method'}, status=405)
 
 @csrf_exempt
+@csrf_exempt
 def login_view(request):
     if request.method == 'POST':
         try:
@@ -121,27 +145,48 @@ def login_view(request):
 
             # Authenticate the user
             user = authenticate(request, username=username, password=password)
+            if user is None:
+                return JsonResponse({'error': 'Invalid username or password'}, status=401)
 
-            if user is not None:
-                if not user.is_active:
-                    return JsonResponse({'error': 'Please complete your profile setup to activate your account.'}, status=403)
+            # Fetch user profile
+            profile = user.profile
 
-                # Generate JWT token
-                refresh = RefreshToken.for_user(user)
-                token_data = {
+            # If user is not verified, ask for email verification
+            if not profile.is_verified:
+                return JsonResponse({
+                    'error': 'Account not verified. Would you like to resend the verification email?',
+                    'verification_pending': True,
+                    'is_verified': False  # Explicitly send is_verified
+                }, status=403)
+
+            # If profile setup is incomplete, redirect to setup
+            if not user.is_active or not profile.profile_complete:
+                return JsonResponse({
+                    'error': 'Profile setup incomplete. Redirecting...',
+                    'profile_complete': False,
+                    'is_verified': profile.is_verified  # Explicitly send is_verified
+                }, status=403)
+
+            # Generate JWT token
+            refresh = RefreshToken.for_user(user)
+            return JsonResponse({
+                'message': 'Login successful!',
+                'token': {
                     'refresh': str(refresh),
                     'access': str(refresh.access_token),
+                },
+                'user': {
+                    'username': user.username,
+                    'email': user.email,
+                    'profile_complete': profile.profile_complete,
+                    'is_verified': profile.is_verified  # Explicitly send is_verified
                 }
-                return JsonResponse({'message': 'Login successful!', 'token': token_data}, status=200)
-            else:
-                return JsonResponse({'error': 'Invalid username or password'}, status=401)
+            }, status=200)
 
         except Exception as e:
             return JsonResponse({'error': 'An error occurred: ' + str(e)}, status=500)
 
     return JsonResponse({'error': 'Invalid request method'}, status=405)
-
-from rest_framework.parsers import MultiPartParser, JSONParser
 
 class ProfileView(APIView):
     permission_classes = [IsAuthenticated]
@@ -187,18 +232,12 @@ class ProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
 
-
 def genres_list_view(request):
     if request.method == 'GET':
         genres = Genre.objects.all()
         serializer = GenreSerializer(genres, many=True)
         return JsonResponse(serializer.data, safe=False)
     return JsonResponse({'error': 'Invalid request method'}, status=405)
-
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -212,3 +251,110 @@ def user_favorite_genres(request):
         return JsonResponse({'error': 'Profile not found'}, status=404)
     except Exception as e:
         return JsonResponse({'error': f'An error occurred: {str(e)}'}, status=500)
+
+def send_verification_email(user, request):
+    """
+    Sends a verification email to the user with a unique link to complete registration.
+    """
+    # Generate token for email verification
+    token = default_token_generator.make_token(user)  # Always generate token
+
+    # Encode the user's ID to be passed in the verification URL
+    uid = urlsafe_base64_encode(force_bytes(user.pk))
+
+    # Set the frontend URL (React app) for email verification
+    frontend_url = 'http://localhost:3000'  # Your React app's URL
+    verification_link = f"{frontend_url}/verify-email/{uid}/{token}/"
+    print("Verification URL:", verification_link)
+
+    # Prepare the subject and email message
+    subject = "Please verify your email address"
+
+    # Render the email HTML template with dynamic content
+    html_message = render_to_string('registration/email_verification_email.html', {
+        'username': user.username,
+        'verification_link': verification_link,
+        'current_year': 2025  
+    })
+    # print(html_message) 
+    # Send the email as HTML
+    send_mail(
+        subject,
+        '',  # Empty plain text content (HTML will be used)
+        'no.reply.critique.cove@gmail.com',  # From email (use your system's no-reply email)
+        [user.email],  # To email
+        fail_silently=False,
+        html_message=html_message  # Pass the HTML content here
+    )
+
+    return JsonResponse({'message': 'Verification email sent!'})
+
+def verify_email(request, uidb64, token):
+    try:
+        print("Received UID:", uidb64)
+        print("Received Token:", token)
+        
+        # Decode the user ID
+        uid = urlsafe_base64_decode(uidb64).decode()
+        print("Decoded UID:", uid)
+        
+        user = User.objects.get(pk=uid)
+        
+        # Validate token
+        if default_token_generator.check_token(user, token):
+            user.is_active = True  # Activate the user
+            user.profile.is_verified=True
+            user.save()
+
+            # Generate JWT token
+            refresh = RefreshToken.for_user(user)
+            access_token = str(refresh.access_token)
+
+            return JsonResponse({
+                "message": "Your email has been verified successfully!",
+                "token": access_token,
+                "username": user.username
+            })
+
+        else:
+            return JsonResponse({"error": "Invalid or expired verification link."}, status=400)
+
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist) as e:
+        print(f"Error: {e}")
+        return JsonResponse({"error": "Invalid verification link."}, status=400)
+
+from django.core.mail import send_mail
+from django.contrib.auth.models import User
+from django.contrib.auth.tokens import default_token_generator
+from django.http import JsonResponse
+from django.template.loader import render_to_string
+
+@csrf_exempt
+def resend_verification_email(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            username = data.get('username')
+
+            # Validate input
+            if not username:
+                return JsonResponse({'error': 'Username is required'}, status=400)
+
+            # Get the user object
+            try:
+                user = User.objects.get(username=username)
+            except User.DoesNotExist:
+                return JsonResponse({'error': 'User does not exist'}, status=404)
+
+            # Check if user is already verified
+            if user.profile.is_verified:
+                return JsonResponse({'message': 'Your account is already verified.'}, status=200)
+            
+            # Send verification email again
+            send_verification_email(user, request)  
+            return JsonResponse({'message': 'Verification email sent successfully!'}, status=200)
+
+        except Exception as e:
+            return JsonResponse({'error': 'An error occurred: ' + str(e)}, status=500)
+
+    return JsonResponse({'error': 'Invalid request method'}, status=405)

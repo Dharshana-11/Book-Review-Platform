@@ -1,16 +1,16 @@
 import React, { useState, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Layout, Menu, Drawer, Image } from "antd";
-import { MenuOutlined, UserOutlined, StarOutlined, HomeOutlined, SettingOutlined, BookOutlined, LogoutOutlined } from "@ant-design/icons";
+import { MenuOutlined, UserOutlined, StarOutlined, HomeOutlined, SettingOutlined, LogoutOutlined } from "@ant-design/icons";
 import SearchBar from "./SearchBar";
 import "../styles/Header.css";
-import "../styles/UserHome.css"
-
+import "../styles/UserHome.css";
 
 const { Header } = Layout;
 
 const AppHeader = ({ onSearchComplete }) => {
   const navigate = useNavigate();
+  const location = useLocation();  // Get current route location
   const [menuVisible, setMenuVisible] = useState(false);
 
   const handleMenuClick = useCallback((e) => {
@@ -37,7 +37,8 @@ const AppHeader = ({ onSearchComplete }) => {
         <Image src="/images/logo_t.png" alt="Logo" className="logo" />
       </div>
       <div className="right-section">
-        <SearchBar onSearchComplete={onSearchComplete} />
+        {/* Conditionally render SearchBar only on the home page */}
+        {location.pathname === "/user/home" && <SearchBar onSearchComplete={onSearchComplete} />}
       </div>
 
       <Drawer title="Menu" placement="left" closable={false} onClose={toggleMenu} open={menuVisible} width={250}>

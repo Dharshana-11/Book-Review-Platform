@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback} from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button, Rate, Modal, message } from 'antd';
 import { LeftOutlined } from "@ant-design/icons";
@@ -15,63 +15,58 @@ const BookDetails = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const GOOGLE_BOOKS_API_KEY = 'AIzaSyCwmn5oVKeeCbiFEbzJComNr1O2vK0bHXw';
     const { title, authors = [], description, imageLinks, categories } = bookData || {};
-
-    useEffect(() => {
-      if (book && book.id) {
-        fetchBookDetails(book.id);  // Fetch book details
-        fetchRatings(book.id);  // Fetch ratings and check if the user has rated
-      }
-    }, [book]);  // Add `book` as a dependency    
-
+    
     // Fetch book data from Google Books API
-    const fetchBookDetails = async (bookId) => {
+    const fetchBookDetails = useCallback(async (bookId) => {
       try {
         const response = await fetch(
           `https://www.googleapis.com/books/v1/volumes/${bookId}?key=${GOOGLE_BOOKS_API_KEY}`
         );
         const data = await response.json();
-
         if (data.volumeInfo) {
           setBookData(data.volumeInfo);
-        } else {
-          console.error('Book details not found');
         }
       } catch (error) {
         console.error('Error fetching book data:', error);
       }
-    };
+    }, []); 
 
     // Fetch ratings and existing rating from the backend
-    const fetchRatings = async (bookId) => {
+    const fetchRatings = useCallback(async (bookId) => {
       try {
-        const token = localStorage.getItem('access_token'); // Get token from localStorage
-        if (!token) {
-          throw new Error('No authentication token found');
-        }
+        const token = localStorage.getItem('access_token');
+        if (!token) throw new Error('No authentication token found');
 
         const response = await fetch(`http://127.0.0.1:8000/ratings/get-book-ratings/?bookId=${bookId}`, {
-          headers: {
-            'Authorization': `Bearer ${token}`,  // Add token to Authorization header
-          }
+          headers: { 'Authorization': `Bearer ${token}` },
         });
 
         if (response.ok) {
           const data = await response.json();
-
-          if (data.average_rating !== undefined) {
-            setCumulativeRating(data.average_rating);
-          }
-
-          if (data.user_rating !== undefined) {
-            setExistingRating(data.user_rating);
-          }
+          setCumulativeRating(data.average_rating ?? null);
+          setExistingRating(data.user_rating ?? null);
         } else {
           throw new Error('Failed to fetch ratings');
         }
       } catch (error) {
         console.error('Error fetching ratings:', error);
       }
-    };
+    }, []); 
+
+    useEffect(() => {
+      const fetchData = async () => {
+        if (book?.id) {
+          try {
+            await fetchBookDetails(book.id);
+            await fetchRatings(book.id);
+          } catch (error) {
+            console.error('Error in useEffect:', error);
+          }
+        }
+      };
+    
+      fetchData();
+    }, [book?.id, fetchBookDetails, fetchRatings]);  // Add functions here    
 
     // Function to decode HTML entities (like &rsquo; -> ')
     const decodeHtml = (html) => {

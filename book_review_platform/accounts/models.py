@@ -28,6 +28,8 @@ class Profile(models.Model):
     bio = models.CharField(max_length=255, default='No bio provided')
     favorite_genres = models.ManyToManyField(Genre, blank=True)  # Reference to Genre table
     profile_pic = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
+    profile_complete = models.BooleanField(default=False)
+    is_verified = models.BooleanField(default=False)
 
     def __str__(self):
         return self.user.username

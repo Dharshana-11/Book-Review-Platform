@@ -3,7 +3,7 @@ from .models import Profile, Genre
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'bio', 'get_favorite_genres', 'profile_pic')  # Updated list_display to use a method for favorite_genres
+    list_display = ('user', 'bio', 'get_favorite_genres', 'profile_pic','profile_complete','is_verified')  
     
     # Custom method to display favorite genres as a comma-separated string
     def get_favorite_genres(self, obj):

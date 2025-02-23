@@ -14,23 +14,27 @@ import LoginPage from './pages/LoginPage';
 import BookDetailsPage from './pages/BookDetailsPage';
 import ReviewPage from './pages/ReviewPage';
 import UserProfilePage from './pages/UserProfilePage';
+// import BookDetails from './components/BookDetails';
+import ProtectedRoute from './components/ProtectedRoute';
+import EmailVerification from './components/EmailVerification';
 
 function App() {
   return (
     <div className="App">
-      <SearchProvider> {/* Wrap the entire Router inside SearchProvider */}
+      <SearchProvider> 
         <Router>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/profile/setup" element={<ProfileSetup />} />
+            <Route path="/verify-email/:uidb64/:token" element={<EmailVerification />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/user/home" element={<UserHome />} />
-            <Route path="/user-profile" element={<UserProfilePage />} />
-            <Route path="/book-details" element={<BookDetailsPage />} />
-            <Route path="/reviews" element={<ReviewPage />} />
-            <Route path="/search-results" element={<SearchResults />} />
+            <Route path="/user/home" element={<ProtectedRoute> <UserHome /> </ProtectedRoute>} />
+            <Route path="/user-profile" element={<ProtectedRoute> <UserProfilePage /> </ProtectedRoute>} />
+            <Route path="/book-details" element={<ProtectedRoute> <BookDetailsPage/> </ProtectedRoute>} />
+            <Route path="/reviews" element={<ProtectedRoute> <ReviewPage /> </ProtectedRoute>} />
+            <Route path="/search-results" element={<ProtectedRoute> <SearchResults /> </ProtectedRoute>} />
           </Routes>
         </Router>
       </SearchProvider>
