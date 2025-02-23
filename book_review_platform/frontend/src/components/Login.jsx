@@ -49,14 +49,14 @@ const Login = () => {
         // Check if the user is verified
         if (user.is_verified === false) {
           setVerificationPending(true); // Show resend button only if verification is pending
-          message.warning('Your account is not verified. Click the button below to resend verification email.', 5);
+          message.warning('Your account is not verified. Click the button below to resend verification e-mail.', 5);
         }
       } else {
         // If login failed, check the response data for specific errors
         if (responseData.is_verified === false) {
           // Handle case where the account is not verified
           setVerificationPending(true); // Show resend button
-          message.warning('Your account is not verified. Click the button below to resend verification email.', 5);
+          message.warning('Your account is not verified. Click the button below to resend verification e-mail.', 5);
         } else if (responseData.profile_complete === false) {
           // Handle case where profile is incomplete
           message.warning('Your profile is incomplete. Please complete your profile setup.');
@@ -87,7 +87,7 @@ const Login = () => {
       if (response.ok) {
         message.success(responseData.message);
       } else {
-        message.error(responseData.error || 'Failed to resend verification email');
+        message.error(responseData.error || 'Failed to resend verification e-mail');
       }
     } catch (error) {
       console.error('Resend verification request failed:', error);
@@ -131,7 +131,7 @@ const Login = () => {
             </Form>
             {verificationPending && (
               <Button type="link" onClick={handleResendVerification} loading={loading}>
-                Resend Verification Email
+                Resend Verification E-mail
               </Button>
             )}
           </div>

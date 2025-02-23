@@ -63,7 +63,7 @@ def signup_view(request):
                 return JsonResponse({'error': 'Username already exists'}, status=400)
 
             if User.objects.filter(email=email).exists():
-                return JsonResponse({'error': 'Email already exists'}, status=400)
+                return JsonResponse({'error': 'E-mail ID already exists'}, status=400)
 
             user = User.objects.create_user(username=username, email=email, password=password)
             user.is_active = False  # User cannot log in yet
@@ -73,7 +73,7 @@ def signup_view(request):
             send_verification_email(user, request)
 
             return JsonResponse({
-                'message': 'User registered successfully! Please verify your email.',
+                'message': 'User registered successfully! Please verify your e-mail.',
             }, status=201)
 
         except Exception as e:
@@ -154,7 +154,7 @@ def login_view(request):
             # If user is not verified, ask for email verification
             if not profile.is_verified:
                 return JsonResponse({
-                    'error': 'Account not verified. Would you like to resend the verification email?',
+                    'error': 'Account not verified. Would you like to resend the verification e-mail?',
                     'verification_pending': True,
                     'is_verified': False  # Explicitly send is_verified
                 }, status=403)
@@ -268,7 +268,7 @@ def send_verification_email(user, request):
     print("Verification URL:", verification_link)
 
     # Prepare the subject and email message
-    subject = "Please verify your email address"
+    subject = "Please verify your e-mail address"
 
     # Render the email HTML template with dynamic content
     html_message = render_to_string('registration/email_verification_email.html', {
@@ -287,7 +287,7 @@ def send_verification_email(user, request):
         html_message=html_message  # Pass the HTML content here
     )
 
-    return JsonResponse({'message': 'Verification email sent!'})
+    return JsonResponse({'message': 'Verification e-mail sent!'})
 
 def verify_email(request, uidb64, token):
     try:
@@ -311,7 +311,7 @@ def verify_email(request, uidb64, token):
             access_token = str(refresh.access_token)
 
             return JsonResponse({
-                "message": "Your email has been verified successfully!",
+                "message": "Your e-mail has been verified successfully!",
                 "token": access_token,
                 "username": user.username
             })
@@ -352,7 +352,7 @@ def resend_verification_email(request):
             
             # Send verification email again
             send_verification_email(user, request)  
-            return JsonResponse({'message': 'Verification email sent successfully!'}, status=200)
+            return JsonResponse({'message': 'Verification e-mail sent successfully!'}, status=200)
 
         except Exception as e:
             return JsonResponse({'error': 'An error occurred: ' + str(e)}, status=500)
