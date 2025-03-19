@@ -40,24 +40,18 @@ class ProfileSerializer(serializers.ModelSerializer):
         favorite_genres = validated_data.pop('favorite_genres', [])
         new_profile_pic = validated_data.get('profile_pic', None)
 
-        # Handle profile picture update
-        if new_profile_pic:
-            # Delete the old profile picture if it exists
-            if instance.profile_pic and os.path.isfile(instance.profile_pic.path):
-                os.remove(instance.profile_pic.path)
+        if new_profile_pic: # Handle profile picture update
+            if instance.profile_pic and os.path.isfile(instance.profile_pic.path): 
+                os.remove(instance.profile_pic.path) # Delete the old profile picture if it exists
 
-            # Generate a new file name for the profile picture
             file_extension = new_profile_pic.name.split('.')[-1]
-            new_file_name = f"{instance.user.username}_profile.{file_extension}"
+            new_file_name = f"{instance.user.username}_profile.{file_extension}" # Generate a new file name for the profile picture
             
-            # Save the new profile picture with the new file name
-            instance.profile_pic.save(new_file_name, new_profile_pic)
+            instance.profile_pic.save(new_file_name, new_profile_pic) # Save the new profile picture with the new file name
 
-        # Update other fields
-        instance.bio = validated_data.get('bio', instance.bio)
+        instance.bio = validated_data.get('bio', instance.bio) # Update other fields
         instance.save()
 
-        # Update favorite genres (many-to-many relationship)
-        instance.favorite_genres.set(favorite_genres)
-
+        instance.favorite_genres.set(favorite_genres)  # Update favorite genres (many-to-many relationship)
+        
         return instance

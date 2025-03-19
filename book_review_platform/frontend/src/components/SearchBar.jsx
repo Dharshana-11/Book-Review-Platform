@@ -1,23 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, forwardRef } from "react";
 import { Input, Button } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
-// import axios from "axios";
-import { useSearch } from '../context/SearchContext';
-import '../styles/SearchBar.css'
+import { useSearch } from "../context/SearchContext";
+import "../styles/SearchBar.css";
 
-const SearchBar = ({ onSearchComplete }) => {
+const SearchBar = forwardRef(function SearchBar({ onSearchComplete }, ref) {
   const [localSearchQuery, setLocalSearchQuery] = useState("");
-  // const [loading, setLoading] = useState(false);
   const { handleSearch, setSearchQuery } = useSearch();
 
   const handleSearchQuery = () => {
     handleSearch(localSearchQuery);
-    setSearchQuery(localSearchQuery)
+    setSearchQuery(localSearchQuery);
   };
 
   return (
     <div className="search-bar-container">
       <Input
+        ref={ref} // Attach the ref to allow focus
         className="search-bar"
         placeholder="Search a book by title, author or genre"
         value={localSearchQuery}
@@ -30,11 +29,10 @@ const SearchBar = ({ onSearchComplete }) => {
         type="primary"
         icon={<SearchOutlined />}
         onClick={handleSearchQuery}
-        // loading={loading}
         style={{ width: "30px" }}
-      ></Button>
+      />
     </div>
   );
-};
+});
 
 export default SearchBar;

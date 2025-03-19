@@ -1,26 +1,53 @@
-/* Header styling */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@400;600&display=swap');
+
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* HEADER STYLING - Glassmorphism with a glowing border */
 .header {
-  background-color: #F0F0F0; /* Soft pale cream */
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
   height: 120px;
-  border-bottom: 1px solid #e2d9c5;
-  /* border-bottom: 1px solid #e2d9c5; Subtle complementary border */
   position: relative;
   z-index: 10;
+  transition: all 0.3s ease-in-out;
+  border-bottom: 1px solid rgba(150, 115, 80, 0.4); /* Faint gold-brown line */
 }
 
-/* Left section (menu icon) */
+/* Header Hover Glow Effect */
+/* .header:hover {
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.3); } /* Subtle gold glow */
+
+/* MENU ICON - Rotating on Hover */
 .menu-icon {
   font-size: 24px;
   cursor: pointer;
-  color: #5a4633; /* Dark espresso brown */
+  color: #5a4633;
   margin-left: 5px;
+  transition: transform 0.3s ease-in-out;
 }
 
-/* Logo styling */
+.menu-icon:hover {
+  transform: rotate(15deg);
+}
+
+/* LOGO STYLING - Smooth scaling */
 .logo-section {
   position: absolute;
   left: 50%;
@@ -28,105 +55,178 @@
 }
 
 .logo {
-  margin-top: 5px;
   height: 160px !important;
   width: auto !important;
-  /* filter: drop-shadow(1px 1px 3px rgba(0, 0, 0, 0.2)); Slight shadow for subtle contrast */
+  transition: transform 0.4s ease-in-out;
 }
 
-/* Right section (search bar) */
+.logo:hover {
+  transform: scale(1.1);
+}
+
+/* SEARCH BAR SECTION */
 .right-section {
   display: flex;
   align-items: center;
 }
 
-
-/* Section Headings */
-/* h2 {
-  font-size: 22px;
-  color: #5a4633; /* Espresso brown for contrast 
-  margin: 20px 30px 10px;
-  font-weight: bold;
-  border-left: 4px solid #e2d9c5; /* Neutral taupe accent 
-  padding-left: 10px;
-} */
-
- .ant-drawer-body {
-  padding: 5px !important;
- }
-
- /* Content styling */
-.search-results-container {
-  padding: 30px;
-  position: relative;
-}
-
-/* Back Button CSS */
+/* BACK BUTTON */
 .search-results-back-btn {
   font-size: 16px;
   color: #022140;
-  position: absolute; /* Position relative to the parent container */
-  top: 10px; /* Adjust vertical position */
-  left: 40px; /* Align to the left edge */
-  width: auto;
-  padding: 5px 10px;
-  /* border: 1px solid #022140; /* Optional border for better visibility */
-  /* background-color: transparent;  */
-  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  left: 40px;
+  padding: 8px 15px;
+  border-radius: 5px;
+  border: 2px solid transparent;
+  transition: all 0.3s ease-in-out;
 }
 
 .search-results-back-btn:hover {
-  background-color: #022140 !important;
-  color: white !important;
-  border-radius: 5px;
+  background: #022140;
+  color: white;
+  border: 2px solid white;
+  box-shadow: 0 4px 10px rgba(2, 33, 64, 0.3);
 }
 
-.search-results-back-btn-container{
-  height:40px !important;
-}
- /* Card Styling */
+/* BOOK CARD - Hover Lift with Neon Glow */
 .book-card {
   width: 100%;
-  border-radius: 10px; /* Rounded corners for the card */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for the card */
+  border-radius: 12px;
+  padding: 20px;
+  background: white;
+  border: 2px solid transparent;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  position: relative;
+  overflow: hidden;
 }
 
-/* Image Styling */
+.book-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  border-image: linear-gradient(45deg, #e2d9c5, #f5ddc1, #d49f79) 1;
+}
+
+/* BOOK IMAGE - Floating Effect */
 .book-image {
   width: 100%;
-  height: 200px; /* Set to portrait height */
-  object-fit: contain; /* Ensure portrait orientation */
-  border-radius: 10px 10px 0 0; /* Rounded corners for the image */
+  height: 200px;
+  object-fit: contain;
+  border-radius: 10px;
+  transition: transform 0.4s ease-in-out;
 }
 
-/* Author Text Styling */
+.book-card:hover .book-image {
+  transform: scale(1.05) rotate(-2deg);
+}
+
+/* BOOK TITLE - Subtle Text Glow */
+.searched-book-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  text-transform: capitalize;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* AUTHOR & DESCRIPTION */
 .searched-book-author {
   font-size: 12px;
   color: #555;
 }
 
-/* Description Styling */
 .searched-book-description {
   font-size: 14px;
   color: #333;
   margin-top: 10px;
 }
 
+/* "See More" - Underline Effect */
 .see-more {
   color: #1890ff;
   cursor: pointer;
-  text-decoration: underline;
-  margin-top: 5px;
-  display: inline-block;
+  text-decoration: none;
+  position: relative;
 }
 
-/* Book Title Styling */
-.searched-book-title {
-  font-size: 16px !important;
-  font-weight: bold;
-  color: #333; /* Neutral color for readability */
-  line-height: 1.4;
-  white-space: nowrap; /* Prevent long titles from wrapping */
-  overflow: hidden;
-  text-overflow: ellipsis; /* Add ellipsis for truncated text */
+.see-more::after {
+  content: "";
+  width: 0%;
+  height: 2px;
+  background: #1890ff;
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  transition: width 0.3s ease-in-out;
 }
+
+.see-more:hover::after {
+  width: 100%;
+}
+
+/* HOVER ANIMATION FOR TEXT */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.book-card, .logo, .header, .search-results-back-btn {
+  animation: fadeInUp 0.6s ease-in-out;
+}
+
+.ant-drawer .ant-drawer-body {
+  padding:5px !important;
+}
+
+.search-results-back-btn {
+  font-size: 16px;
+  color: #022140;
+  position: absolute;
+  top: 10px;
+  left: 40px;
+  width: auto;
+  padding: 5px 10px;
+  border: 2px solid transparent;
+  transition: all 0.3s ease-in-out;
+}
+
+.search-results-back-btn:hover {
+  background-color: #022140 !important;
+  color: white !important;
+  border-radius: 5px;
+  box-shadow: 0 4px 10px rgba(2, 33, 64, 0.2); /* Soft glow effect */
+}
+
+.search-results-container {
+  padding: 40px;
+  padding-top:60px;
+  position: relative;
+}
+
+/* COOL SCROLLBAR
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f5f0e6;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #d49f79, #90593e);
+  border-radius: 10px;
+  transition: all 0.3s ease-in-out;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(45deg, #90593e, #5a4633);
+} */

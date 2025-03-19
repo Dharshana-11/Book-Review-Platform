@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback} from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button, Rate, Modal, message } from 'antd';
-import { LeftOutlined } from "@ant-design/icons";
+import { LeftOutlined, ShoppingCartOutlined, StarFilled } from "@ant-design/icons";
 import '../styles/BookDetails.css';
 
 const BookDetails = () => {
@@ -135,26 +135,18 @@ const BookDetails = () => {
         console.log("User Home navigated");
         console.log(window.history);
       } 
-      // else {
-      //   navigate('/user/home');
-      //   console.log("User Home navigated");
-        
-      // }
     };    
 
     return (
       <>
         <div className='back-btn-main'>
           <div className="back-btn-container">
-            <Button type="link" onClick={handleBackClick} className="back-btn">
-              <LeftOutlined />
-            </Button>
+            <Button type="link" onClick={handleBackClick} className="back-btn"><LeftOutlined /></Button>
           </div>
         </div>
         <div className="book-details-container">
           <div className="book-cover-section">
-            <img
-              src={imageLinks && imageLinks.thumbnail 
+            <img src={imageLinks && imageLinks.thumbnail 
                 ? `${imageLinks.thumbnail}&fife=w800` 
                 : ""}
               alt={title}
@@ -164,11 +156,11 @@ const BookDetails = () => {
               className="shopping-link-button"
               type="primary"
               onClick={() => window.open(generateAmazonLink(title), "_blank")}
-            >
+            > <ShoppingCartOutlined/>
               Buy on Amazon
             </Button>
             <Button className="add-ratings-button" onClick={showRatingModal}>
-              Rate this book
+              <StarFilled/> Rate this book
             </Button>
           </div>
 

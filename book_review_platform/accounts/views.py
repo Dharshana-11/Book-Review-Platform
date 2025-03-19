@@ -1,8 +1,6 @@
 from django.shortcuts import render
-
 # Create your views here.
 # views.py
-
 from django.contrib.auth.models import User
 from django.http import JsonResponse, QueryDict
 from django.views.decorators.csrf import csrf_exempt
@@ -21,31 +19,14 @@ from rest_framework import viewsets
 from rest_framework.parsers import MultiPartParser, JSONParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
-import uuid
 from django.core.mail import send_mail
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_decode
-
-from django.core.mail import send_mail
-from django.template.loader import render_to_string
 from django.http import JsonResponse
 from django.utils.encoding import force_bytes
-
-
-from django.contrib.auth.tokens import default_token_generator
-from django.contrib.auth.models import User
-from django.utils.http import urlsafe_base64_decode
-from django.shortcuts import render, redirect
-from django.contrib import messages
-from django.http import JsonResponse
-
-from django.http import JsonResponse
-from django.contrib.auth.tokens import default_token_generator
-from django.contrib.auth.models import User
-from django.utils.http import urlsafe_base64_decode
-from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth import get_user_model
 
 @csrf_exempt
 def signup_view(request):
@@ -130,7 +111,6 @@ def profile_setup_view(request):
 
     return JsonResponse({'error': 'Invalid request method'}, status=405)
 
-@csrf_exempt
 @csrf_exempt
 def login_view(request):
     if request.method == 'POST':
@@ -257,13 +237,13 @@ def send_verification_email(user, request):
     Sends a verification email to the user with a unique link to complete registration.
     """
     # Generate token for email verification
-    token = default_token_generator.make_token(user)  # Always generate token
+    token = default_token_generator.make_token(user)  
 
     # Encode the user's ID to be passed in the verification URL
     uid = urlsafe_base64_encode(force_bytes(user.pk))
 
     # Set the frontend URL (React app) for email verification
-    frontend_url = 'http://localhost:3000'  # Your React app's URL
+    frontend_url = 'http://localhost:3000' 
     verification_link = f"{frontend_url}/verify-email/{uid}/{token}/"
     print("Verification URL:", verification_link)
 
@@ -277,14 +257,13 @@ def send_verification_email(user, request):
         'current_year': 2025  
     })
     # print(html_message) 
-    # Send the email as HTML
     send_mail(
         subject,
         '',  # Empty plain text content (HTML will be used)
-        'no.reply.critique.cove@gmail.com',  # From email (use your system's no-reply email)
+        'no.reply.critique.cove@gmail.com',  # From email 
         [user.email],  # To email
         fail_silently=False,
-        html_message=html_message  # Pass the HTML content here
+        html_message=html_message  # HTML content 
     )
 
     return JsonResponse({'message': 'Verification e-mail sent!'})
@@ -294,7 +273,7 @@ def verify_email(request, uidb64, token):
         print("Received UID:", uidb64)
         print("Received Token:", token)
         
-        # Decode the user ID
+        # Decode user ID
         uid = urlsafe_base64_decode(uidb64).decode()
         print("Decoded UID:", uid)
         
@@ -322,12 +301,6 @@ def verify_email(request, uidb64, token):
     except (TypeError, ValueError, OverflowError, User.DoesNotExist) as e:
         print(f"Error: {e}")
         return JsonResponse({"error": "Invalid verification link."}, status=400)
-
-from django.core.mail import send_mail
-from django.contrib.auth.models import User
-from django.contrib.auth.tokens import default_token_generator
-from django.http import JsonResponse
-from django.template.loader import render_to_string
 
 @csrf_exempt
 def resend_verification_email(request):
@@ -358,3 +331,81 @@ def resend_verification_email(request):
             return JsonResponse({'error': 'An error occurred: ' + str(e)}, status=500)
 
     return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+@csrf_exempt
+def forgot_password_view(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            email = data.get('email')
+
+            if not email:
+                return JsonResponse({'error': 'Email is required'}, status=400)
+
+            try:
+                user = User.objects.get(email=email)
+            except User.DoesNotExist:
+                return JsonResponse({'error': 'User does not exist'}, status=404)
+
+            # Generate token for password reset
+            token = default_token_generator.make_token(user)
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+
+            # Send reset password email (directs to  reset password page)
+            reset_link = f'http://localhost:3000/reset-password/{uid}/{token}/'
+
+            # Render the HTML email content
+            html_message = render_to_string('email/password_reset_email.html', {
+                'username': user.username,
+                'reset_link': reset_link,
+                'current_year': 2025  # Or dynamically fetch the current year
+            })
+
+            # Send email
+            send_mail(
+                'Password Reset Request',  # Subject of the email
+                '',  # Plain text content (HTML is used instead)
+                'noreply.critique.cove@gmail.com', 
+                [email],  # Recipient email (user's email)
+                fail_silently=False,
+                html_message=html_message  # HTML content of the email
+            )
+
+            return JsonResponse({'message': 'Password reset email sent successfully!'}, status=200)
+        except Exception as e:
+            return JsonResponse({'error': f'An error occurred: {str(e)}'}, status=500)
+
+    return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+
+
+User = get_user_model()
+
+@csrf_exempt
+def password_reset_confirm(request, uidb64, token):
+    try:
+        # Decode the user ID from the URL
+        uid = urlsafe_base64_decode(uidb64).decode()
+        user = User.objects.get(pk=uid)
+
+        # Verify the token
+        if not default_token_generator.check_token(user, token):
+            return JsonResponse({'error': 'The reset link is invalid or has expired.'}, status=400)
+
+        # Process password reset
+        if request.method == 'POST':
+            data = json.loads(request.body)  # Read JSON data from request
+            new_password = data.get('password')
+
+            if not new_password:
+                return JsonResponse({'error': 'Password is required.'}, status=400)
+
+            user.set_password(new_password)
+            user.save()
+
+            return JsonResponse({'message': 'Your password has been reset successfully!'}, status=200)
+
+        return JsonResponse({'message': 'Ready to reset password.'}, status=200)
+
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        return JsonResponse({'error': 'The reset link is invalid or has expired.'}, status=400)

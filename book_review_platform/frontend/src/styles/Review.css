@@ -213,9 +213,9 @@
 }
 
 .ant-modal button:hover{
-    background-color: transparent !important;
-    color:black !important;
-    border-color: #022150 !important;
+    background-color: transparent;
+    color:black;
+    border-color: #022150;
 }
 
 .menu-item {

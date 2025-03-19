@@ -17,6 +17,7 @@ import UserProfilePage from './pages/UserProfilePage';
 // import BookDetails from './components/BookDetails';
 import ProtectedRoute from './components/ProtectedRoute';
 import EmailVerification from './components/EmailVerification';
+import ResetPassword from './components/ResetPassword';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
             <Route path="/signup" element={<SignUp />} />
             <Route path="/profile/setup" element={<ProfileSetup />} />
             <Route path="/verify-email/:uidb64/:token" element={<EmailVerification />} />
+            <Route path="/reset-password/:uid/:token" element={<ResetPassword />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/user/home" element={<ProtectedRoute> <UserHome /> </ProtectedRoute>} />
             <Route path="/user-profile" element={<ProtectedRoute> <UserProfilePage /> </ProtectedRoute>} />
