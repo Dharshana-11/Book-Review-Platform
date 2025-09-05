@@ -105,4 +105,4 @@ Open your browser at [http://localhost:3000](http://localhost:3000)
  - Add social features like following users and commenting
 
 ## Live Demo
-[Click here to view the live app](book-review-platform-8cmgeb0i6-dharshana-11s-projects.vercel.app)
+[Click here to view the live app](https://book-review-platform-8cmgeb0i6-dharshana-11s-projects.vercel.app)
