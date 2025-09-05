@@ -34,7 +34,6 @@
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
-/* Buttons with Interactive Effects */
 .shopping-link-button,
 .add-ratings-button,
 .view-reviews-button {
@@ -61,8 +60,6 @@
 .view-reviews-button:hover {
   transform: scale(1.05) !important;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25) !important;
-  color: white !important;
-  border-color: transparent !important;
 }
 
 /* Book Info Section */
@@ -88,6 +85,12 @@
   gap: 10px;
   font-size: 18px;
   color: #555555;
+  justify-content: center; /* This centers the content */
+  text-align: center; /* Optional: ensures text is centered if the container is larger than content */
+}
+
+.rating-value {
+  font-weight: bold;
 }
 
 .rating-value {

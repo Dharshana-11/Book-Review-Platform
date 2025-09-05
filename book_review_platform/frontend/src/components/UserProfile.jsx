@@ -85,8 +85,6 @@ const UserProfile = () => {
     }
   };
     
-
-  // Render loading spinner if data is still loading
   if (loading || !userData || genres.length === 0) {
     return <Spin spinning={loading} />;
   }
@@ -96,12 +94,12 @@ const UserProfile = () => {
       <Card className="user-profile-card">
         <div className="user-profile-header">
           <Button
-            className="back-button"
+            className="profile-back-button"
             onClick={() => window.history.back()}
             icon={<LeftOutlined />}
           />
           <Button
-            className="edit-button"
+            className="profile-edit-button"
             icon={<EditOutlined />}
             onClick={() => setIsModalVisible(true)}
           />

@@ -243,7 +243,7 @@ return (
   <div className="review-content">
     <div className="review-header">
       <div>
-        <Button type="link" onClick={() => window.history.back()} className="back-btn">
+        <Button type="link" onClick={() => window.history.back()} className="review-back-btn">
           <LeftOutlined />
         </Button>
         <h2 className="review-book-title">Reviews for {title}</h2>

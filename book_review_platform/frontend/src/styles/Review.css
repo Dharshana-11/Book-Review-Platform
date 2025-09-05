@@ -38,11 +38,18 @@
     padding-left: 5px;
   }
   
-  .back-btn {
-    font-size: 16px;
-    color: #022140;
-    position: absolute;
-    top:33px;
+  .review-back-btn {
+    font-size: 16px !important;
+    color: #022140 !important;
+    position: absolute !important;
+    top:33px !important;
+    left:25px !important;
+    width:20px !important;
+  }
+
+  .review-back-btn:hover{
+    background-color: #022140 !important;
+    color:white !important;
   }
   
   .review-btn {

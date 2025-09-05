@@ -18,6 +18,7 @@ import UserProfilePage from './pages/UserProfilePage';
 import ProtectedRoute from './components/ProtectedRoute';
 import EmailVerification from './components/EmailVerification';
 import ResetPassword from './components/ResetPassword';
+import Settings from './components/Settings';
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
             <Route path="/book-details" element={<ProtectedRoute> <BookDetailsPage/> </ProtectedRoute>} />
             <Route path="/reviews" element={<ProtectedRoute> <ReviewPage /> </ProtectedRoute>} />
             <Route path="/search-results" element={<ProtectedRoute> <SearchResults /> </ProtectedRoute>} />
+            <Route path="/settings" element={<ProtectedRoute><Settings/></ProtectedRoute>}/>
           </Routes>
         </Router>
       </SearchProvider>

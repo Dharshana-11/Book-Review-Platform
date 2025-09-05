@@ -11,9 +11,10 @@ export const SearchProvider = ({ children }) => {
     return storedResults ? JSON.parse(storedResults) : [];
   });
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null); // For error handling
+  const [error, setError] = useState(null);
 
-  const GOOGLE_API_KEY = 'AIzaSyCwmn5oVKeeCbiFEbzJComNr1O2vK0bHXw';
+  // Use environment variable instead of hardcoded key
+  const GOOGLE_API_KEY = process.env.REACT_APP_GOOGLE_BOOKS_API_KEY;
   const GOOGLE_API_URL = 'https://www.googleapis.com/books/v1/volumes';
 
   const clearSearchResults = () => {
@@ -28,7 +29,7 @@ export const SearchProvider = ({ children }) => {
     }
 
     setIsLoading(true);
-    setError(null); // Reset error state before new request
+    setError(null);
 
     try {
       const response = await fetch(`${GOOGLE_API_URL}?q=${query}&key=${GOOGLE_API_KEY}`);
@@ -46,7 +47,7 @@ export const SearchProvider = ({ children }) => {
         }));
 
         setSearchResults(results);
-        sessionStorage.setItem('searchResults', JSON.stringify(results)); // Persist results
+        sessionStorage.setItem('searchResults', JSON.stringify(results));
       } else {
         clearSearchResults();
       }
@@ -57,13 +58,13 @@ export const SearchProvider = ({ children }) => {
     } finally {
       setIsLoading(false);
     }
-  }, [GOOGLE_API_URL, GOOGLE_API_KEY]); // Remove `searchQuery` from dependency list
+  }, [GOOGLE_API_URL, GOOGLE_API_KEY]);
 
   useEffect(() => {
     if (searchQuery) {
-      handleSearch(searchQuery); // Trigger search when the query changes
+      handleSearch(searchQuery);
     }
-  }, [searchQuery, handleSearch]); // Only search when searchQuery changes
+  }, [searchQuery, handleSearch]);
 
   return (
     <SearchContext.Provider
@@ -73,7 +74,7 @@ export const SearchProvider = ({ children }) => {
         searchResults,
         clearSearchResults,
         isLoading,
-        error, // Provide error state to be used by consumers
+        error,
         handleSearch,
       }}
     >

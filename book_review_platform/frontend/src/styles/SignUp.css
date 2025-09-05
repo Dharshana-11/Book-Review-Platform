@@ -55,9 +55,9 @@
     transition: all 0.3s ease;
   }
   
-  button:hover {
+  .continue-button:hover {
     background-color: #9D6824 !important;
-    border-color: #9D6824;
+    border-color: #9D6824 !important;
   }
   
   .ant-form-item {

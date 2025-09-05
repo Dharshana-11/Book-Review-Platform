@@ -409,3 +409,46 @@ def password_reset_confirm(request, uidb64, token):
 
     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
         return JsonResponse({'error': 'The reset link is invalid or has expired.'}, status=400)
+
+from django.contrib.auth.models import User
+from django.contrib.auth.hashers import check_password
+from rest_framework.response import Response
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework import status
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def change_password(request):
+    user = request.user
+    data = request.data
+    current_password = data.get('current_password')
+    new_password = data.get('new_password')
+
+    if not check_password(current_password, user.password):
+        return Response({"error": "Current password is incorrect"}, status=status.HTTP_400_BAD_REQUEST)
+
+    user.set_password(new_password)
+    user.save()
+    return Response({"message": "Password updated successfully"}, status=status.HTTP_200_OK)
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def change_username(request):
+    user = request.user
+    new_username = request.data.get('new_username')
+
+    if User.objects.filter(username=new_username).exists():
+        return Response({"error": "Username already taken"}, status=status.HTTP_400_BAD_REQUEST)
+
+    user.username = new_username
+    user.save()
+    return Response({"message": "Username updated successfully"}, status=status.HTTP_200_OK)
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def delete_account(request):
+    user = request.user
+    user.delete()
+    return Response({"message": "Account deleted successfully"}, status=status.HTTP_200_OK)
+

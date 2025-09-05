@@ -24,7 +24,6 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
     
-# Create a signal to create a profile when a new user is created
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:

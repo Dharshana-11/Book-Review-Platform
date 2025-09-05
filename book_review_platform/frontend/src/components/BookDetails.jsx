@@ -177,7 +177,7 @@ const BookDetails = () => {
                   <span className="rating-value">{cumulativeRating.toFixed(1)}</span>
                 </>
               ) : (
-                <span>No ratings available</span>
+                <span style={{ fontStyle: 'italic', color: '#d3d3d3' }}>No ratings available</span>
               )}
             </div>
 

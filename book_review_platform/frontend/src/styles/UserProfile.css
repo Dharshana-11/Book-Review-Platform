@@ -1,6 +1,5 @@
-/* Card Container */
 .user-profile-card {
-    max-width: 800px;
+    width: 700px;
     margin: 40px auto;
     padding: 20px;
     border-radius: 10px;
@@ -10,49 +9,28 @@
     margin-bottom: 40px !important;
   }
   
-  /* Header Section
-  .user-profile-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-  } */
   .user-avatar-container{
     margin:60px;
   }
   
   .user-profile-header {
-    position: relative; /* Make sure the positioning of child elements is relative to this container */
+    position: relative; 
     margin-bottom: 20px;
     width: 100%;
 }
 
-.back-button-container {
-    display: flex;
-    position: absolute;
-    top: 10px; /* Adjust the distance from the top */
-    left: 10px; /* Position it on the left */
-}
-
-.edit-button-container {
-    display: flex;
-    position: absolute;
-     /* Adjust the distance from the top */
-    right: 5px; /* Position it on the right */
-}
-
-.back-button {
+.profile-back-button {
     font-size: 18px;
-    color: #022140;
-    border: none;
-    background: transparent;
+    border-color: #022140 !important;
+    background: transparent !important;
     cursor: pointer;
     position: absolute;
-    top: 20px; /* Adjust the distance from the top */
+    top: 20px; 
     left: 10px;
+
 }
 
-.edit-button {
+.profile-edit-button {
     background: transparent;
     font-size: 22px;
     color: #022140;
@@ -63,16 +41,17 @@
     position: absolute;
     top:150px;
     right: 10px;
+    border-color: #022140 !important;
 }
 
-.edit-button:hover {
+.profile-back-button:hover, .profile-edit-button:hover {
     background-color: #022140 !important;
     color: white !important;
 }
   
-  /* User Details Section */
   .user-profile-details {
     margin-top: 20px;
+    text-align: justify;
   }
   
   .user-profile-details .ant-row {
@@ -123,7 +102,6 @@
     background-color: #ff7875 !important;
   }
   
-  /* Modal Styling */
   .ant-modal-content {
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);

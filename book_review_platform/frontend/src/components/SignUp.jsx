@@ -7,7 +7,7 @@ import { MailOutlined, UserOutlined, LockOutlined, RightOutlined } from '@ant-de
 const SignUp = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  
+
   const handleSignInNavigation = () => {
     navigate('/login');
   };
@@ -72,7 +72,19 @@ const SignUp = () => {
             <Form.Item name="username" rules={[{ required: true, message: 'Please input your username!' }]}>
               <Input prefix={<UserOutlined />} placeholder="Username" />
             </Form.Item>
-            <Form.Item name="password" rules={[{ required: true, message: 'Please input your password!' }]}>
+            <Form.Item 
+              name="password" 
+              rules={[
+                { 
+                  required: true, 
+                  message: 'Please input your password!' 
+                },
+                { 
+                  pattern: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/, 
+                  message: 'Password must be at least 6 characters long, with at least 1 number and 1 special character!' 
+                }
+              ]}
+            >
               <Input.Password prefix={<LockOutlined />} placeholder="Password" />
             </Form.Item>
             <Form.Item>

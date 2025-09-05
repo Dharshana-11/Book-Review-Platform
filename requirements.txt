@@ -1,0 +1,14 @@
+asgiref==3.8.1
+Django==5.1.6
+django-cors-headers==4.6.0
+django-extensions==3.2.3
+djangorestframework==3.15.2
+djangorestframework-jwt==1.11.0
+djangorestframework-simplejwt==5.3.1
+graphviz==0.20.3
+pillow==11.0.0
+pydotplus==2.0.2
+PyJWT==1.7.1
+pyparsing==3.2.1
+sqlparse==0.5.3
+tzdata==2025.1
