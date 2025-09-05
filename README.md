@@ -59,7 +59,7 @@ A full-stack web application where users can **search for books, read and write 
 
 ```bash
 git clone https://github.com/Dharshana-11/book-review-platform.git
-cd book-review-platform
+cd book_review_platform
 ````
 
 2. **Back-end Setup**
@@ -79,7 +79,7 @@ python manage.py runserver
 3. **Front-end Setup**
 
 ```bash
-cd ../frontend
+cd book_review_platform/frontend
 npm install
 npm start
 ```
@@ -105,4 +105,4 @@ Open your browser at [http://localhost:3000](http://localhost:3000)
  - Add social features like following users and commenting
 
 ## Live Demo
-[Click here to view the live app]()
+[Click here to view the live app](book-review-platform-8cmgeb0i6-dharshana-11s-projects.vercel.app)
