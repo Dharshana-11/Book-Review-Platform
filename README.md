@@ -28,7 +28,7 @@ A full-stack web application where users can **search for books, read and write 
 ## Screenshots
 
 ### Home Page
-![Home Page](frontend/public/screenshots/home-page.png)
+![Home Page](book_review_platform/frontend/public/screenshots/home-page.png)
 
 ### User Authentication
 ![Login & Signup](frontend/public/screenshots/login-signup.png)
