@@ -31,25 +31,25 @@ A full-stack web application where users can **search for books, read and write 
 ![Home Page](book_review_platform/frontend/public/screenshots/home-page.png)
 
 ### User Authentication
-![Login & Signup](frontend/public/screenshots/login-signup.png)
-![Email Verification](frontend/public/screenshots/email-verification.png)
-![Profile Setup](frontend/public/screenshots/profile-setup.png)
+![Login & Signup](book_review_platform/frontend/public/screenshots/login-signup.png)
+![Email Verification](book_review_platform/frontend/public/screenshots/email-verification.png)
+![Profile Setup](book_review_platform/frontend/public/screenshots/profile-setup.png)
 
 ### Book Search
-![Search Results](frontend/public/screenshots/search-results.png)
+![Search Results](book_review_platform/frontend/public/screenshots/search-results.png)
 
 ### Book Details
-![Book Details & Ratings](frontend/public/screenshots/book-details.png)
+![Book Details & Ratings](book_review_platform/frontend/public/screenshots/book-details.png)
 
 ### Reviews
-![Review Page](frontend/public/screenshots/review-page.png)
-![Like Button Interaction](frontend/public/screenshots/like-button.png)
+![Review Page](book_review_platform/frontend/public/screenshots/review-page.png)
+![Like Button Interaction](book_review_platform/frontend/public/screenshots/like-button.png)
 
 ### Profile Page
-![Profile Page](frontend/public/screenshots/profile-page.png)
+![Profile Page](book_review_platform/frontend/public/screenshots/profile-page.png)
 
 ### Book Rating
-![Rating Modal](frontend/public/screenshots/rating-modal.png)
+![Rating Modal](book_review_platform/frontend/public/screenshots/rating-modal.png)
 
 ---
 
