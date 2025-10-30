@@ -24,8 +24,7 @@ from django.conf.urls.static import static
 from rest_framework.routers import DefaultRouter
 
 def redirect_to_react(request):
-    return redirect('http://localhost:3000'
-                    )
+    return redirect('https://book-review-platform-ruddy.vercel.app')
 
 router = DefaultRouter()
 router.register(r'genres', GenreViewSet, basename='genre')
