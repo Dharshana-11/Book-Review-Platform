@@ -34,7 +34,11 @@ DEFAULT_FROM_EMAIL = 'noreply.critique.cove@gmail.com'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    "book-review-backend-b19g.onrender.com",
+]
 
 
 # Application definition
