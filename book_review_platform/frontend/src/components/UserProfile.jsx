@@ -4,6 +4,7 @@ import { UserOutlined, EditOutlined, LeftOutlined } from "@ant-design/icons";
 import "../styles/UserProfile.css"; // Import the CSS file
 import api from "../api/axiosInstance";
 import API_ENDPOINTS from "../api/endpoints";
+import BASE_URL from "../config";
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -110,7 +111,7 @@ const UserProfile = () => {
           size={100}
           src={
             userData.profile_pic
-              ? `http://127.0.0.1:8000${userData.profile_pic}?t=${new Date().getTime()}`
+              ? `${BASE_URL}${userData.profile_pic}?t=${new Date().getTime()}`
               : null
           }
           icon={!userData.profile_pic ? <UserOutlined /> : null}

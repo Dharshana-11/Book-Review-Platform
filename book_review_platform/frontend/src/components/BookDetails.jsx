@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Button, Rate, Modal, message } from 'antd';
 import { LeftOutlined, ShoppingCartOutlined, StarFilled } from "@ant-design/icons";
 import '../styles/BookDetails.css';
+import BASE_URL from "../config";
 
 const BookDetails = () => {
     const { state } = useLocation();
@@ -37,7 +38,7 @@ const BookDetails = () => {
         const token = localStorage.getItem('access_token');
         if (!token) throw new Error('No authentication token found');
 
-        const response = await fetch(`http://127.0.0.1:8000/ratings/get-book-ratings/?bookId=${bookId}`, {
+        const response = await fetch(`${BASE_URL}/ratings/get-book-ratings/?bookId=${bookId}`, {
           headers: { 'Authorization': `Bearer ${token}` },
         });
 
@@ -92,7 +93,7 @@ const BookDetails = () => {
     const handleRatingSubmit = async () => {
       try {
         const token = localStorage.getItem('access_token');
-        const response = await fetch('http://localhost:8000/ratings/rate-book/', {
+        const response = await fetch(`${BASE_URL}/ratings/rate-book/`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

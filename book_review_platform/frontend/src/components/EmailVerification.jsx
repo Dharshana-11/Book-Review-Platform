@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { message } from 'antd';
+import BASE_URL from "../config";
 
 const EmailVerification = () => {
   const navigate = useNavigate();
@@ -10,7 +11,7 @@ const EmailVerification = () => {
   useEffect(() => {
     const verifyEmail = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:8000/accounts/verify-email/${uidb64}/${token}/`);
+        const response = await fetch(`${BASE_URL}/accounts/verify-email/${uidb64}/${token}/`);
         const data = await response.json();
 
         if (response.ok) {

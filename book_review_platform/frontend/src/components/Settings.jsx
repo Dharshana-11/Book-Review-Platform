@@ -4,6 +4,7 @@ import { LockOutlined, UserOutlined, DeleteOutlined, ArrowLeftOutlined } from "@
 import "../styles/Settings.css";
 import AppHeader from "./AppHeader";
 import { useNavigate } from 'react-router-dom';
+import BASE_URL from "../config";
 
 const Settings = () => {
   const [isPasswordModalVisible, setPasswordModalVisible] = useState(false);
@@ -15,7 +16,7 @@ const Settings = () => {
   
   const handlePasswordChange = async (values) => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/accounts/change-password/", {
+      const response = await fetch(`${BASE_URL}/accounts/change-password/`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -36,7 +37,7 @@ const Settings = () => {
 
   const handleUsernameChange = async (values) => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/accounts/change-username/", {
+      const response = await fetch(`${BASE_URL}/accounts/change-username/`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -57,7 +58,7 @@ const Settings = () => {
 
   const handleDeleteAccount = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/accounts/delete-account/", {
+      const response = await fetch(`${BASE_URL}/accounts/delete-account/`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,

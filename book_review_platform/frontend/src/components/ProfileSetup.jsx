@@ -3,6 +3,7 @@ import '../styles/ProfileSetup.css';
 import { useNavigate } from 'react-router-dom';
 import { Form, Input, Card, Select, Button, Avatar, Upload, message } from 'antd';
 import { UserOutlined, UploadOutlined, ArrowLeftOutlined } from '@ant-design/icons';
+import BASE_URL from "../config";
 
 const ProfileSetup = () => {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ const ProfileSetup = () => {
           return;
         }
   
-        const response = await fetch('http://127.0.0.1:8000/accounts/genres/', {
+        const response = await fetch(`${BASE_URL}/accounts/genres/`, {
           headers: {
             Authorization: `Bearer ${token}` // Include token in the header
           }
@@ -73,7 +74,7 @@ const ProfileSetup = () => {
         profilePic: profilePic, // Base64-encoded image data
       };
 
-      const response = await fetch('http://127.0.0.1:8000/accounts/profile/setup/', {
+      const response = await fetch(`${BASE_URL}/accounts/profile/setup/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -4,6 +4,7 @@ import { UserOutlined, LockOutlined, MailOutlined} from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 // import { FaChevronLeft } from 'react-icons/fa';
 import '../styles/Login.css';
+import BASE_URL from "../config";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ const Login = () => {
     localStorage.setItem('username', username);
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/accounts/login/', {
+      const response = await fetch(`${BASE_URL}/accounts/login/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
@@ -68,7 +69,7 @@ const Login = () => {
   const handleResendVerification = async () => {
     const username = localStorage.getItem('username');
     try {
-      const response = await fetch('http://127.0.0.1:8000/accounts/resend-verification/', {
+      const response = await fetch(`${BASE_URL}/accounts/resend-verification/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username }),
@@ -89,7 +90,7 @@ const Login = () => {
   const handleForgotPassword = async (email) => {
     setLoading(true);
     try {
-      const response = await fetch('http://127.0.0.1:8000/accounts/forgot-password/', {
+      const response = await fetch(`${BASE_URL}/accounts/forgot-password/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),

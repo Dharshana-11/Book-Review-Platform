@@ -3,6 +3,7 @@ import '../styles/SignUp.css';
 import { useNavigate } from 'react-router-dom';
 import { Form, Input, Card, Image, Spin, message } from 'antd';
 import { MailOutlined, UserOutlined, LockOutlined, RightOutlined } from '@ant-design/icons';
+import BASE_URL from "../config";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ const SignUp = () => {
   const onFinish = async (values) => {
     setLoading(true);
     try {
-      const response = await fetch('http://127.0.0.1:8000/accounts/signup/', {
+      const response = await fetch(`${BASE_URL}/accounts/signup/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(values),

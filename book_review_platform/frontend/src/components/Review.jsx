@@ -4,6 +4,7 @@ import { HeartOutlined, HeartFilled, EllipsisOutlined, LeftOutlined, EditOutline
 import api from "../api/axiosInstance";
 import { useLocation } from "react-router-dom";
 import "../styles/Review.css";
+import BASE_URL from "../config";
 
 const Review = () => {
   const location = useLocation();
@@ -274,7 +275,7 @@ return (
         <div className="review-card">
           <div className="review-card-header">
             <Avatar
-              src={`http://localhost:8000${review.user?.profile_pic}`}
+              src={`${BASE_URL}${review.user?.profile_pic}`}
               className="review-avatar"
               size={64}
             />
