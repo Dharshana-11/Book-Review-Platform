@@ -13,7 +13,6 @@ export const SearchProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Use environment variable instead of hardcoded key
   const GOOGLE_API_KEY = process.env.REACT_APP_GOOGLE_BOOKS_API_KEY;
   const GOOGLE_API_URL = 'https://www.googleapis.com/books/v1/volumes';
 
