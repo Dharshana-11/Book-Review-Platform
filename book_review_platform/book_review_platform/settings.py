@@ -147,7 +147,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # ]
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",                     # local React dev server
-    "https://book-review-platform-ruddy.vercel.app/",     # Vercel frontend
+    "https://book-review-platform-ruddy.vercel.app",     # Vercel frontend
     "https://book-review-backend-b19g.onrender.com"
 ]
 
@@ -155,11 +155,9 @@ CORS_ALLOW_CREDENTIALS = True
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000",
-    "https://book-review-platform-ruddy.vercel.app/",
+    "https://book-review-platform-ruddy.vercel.app",
     "https://book-review-backend-b19g.onrender.com"
 ]
-
-CORS_ALLOW_CREDENTIALS = True
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
